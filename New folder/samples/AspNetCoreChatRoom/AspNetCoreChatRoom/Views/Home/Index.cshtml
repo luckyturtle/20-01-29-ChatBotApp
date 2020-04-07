@@ -1,0 +1,198 @@
+﻿@model String
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+
+</div>
+
+<!-- begin::Head -->
+<head>
+
+    <!--begin::Base Path (base relative path for assets of this page) -->
+    <base href="../../../../">
+
+    <!--end::Base Path -->
+    <meta charset="utf-8" />
+    <title>Homework</title>
+    <meta name="description" content="Private chat example">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!--begin::Fonts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
+    <script>
+        WebFont.load({
+            google: {
+                "families": ["Poppins:300,400,500,600,700", "Roboto:300,400,500,600,700"]
+            },
+            active: function () {
+                sessionStorage.fonts = true;
+            }
+        });
+    </script>
+
+    <!--end::Fonts -->
+    <!--begin:: Global Mandatory Vendors -->
+    <link href="./assets/vendors/general/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet" type="text/css" />
+
+    <!--end:: Global Mandatory Vendors -->
+    <!--begin:: Global Optional Vendors -->
+
+    <link href="./assets/vendors/custom/vendors/flaticon/flaticon.css" rel="stylesheet" type="text/css" />
+    <link href="./assets/vendors/custom/vendors/flaticon2/flaticon.css" rel="stylesheet" type="text/css" />
+    <link href="./assets/vendors/general/fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css" />
+
+    <!--end:: Global Optional Vendors -->
+    <!--begin::Global Theme Styles(used by all pages) -->
+    <link href="./assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
+
+    <!--end::Global Theme Styles -->
+   
+   
+
+
+</head>
+
+<!-- end::Head -->
+
+    <!-- begin:: Page -->
+    <!-- begin:: Content -->
+    <div class="kt-content  kt-grid__item kt-grid__item--fluid" id="kt_content">
+
+        <!--Begin::App-->
+        <div class="kt-grid kt-grid--desktop kt-grid--ver kt-grid--ver-desktop kt-app">
+
+            <!--Begin:: App Aside Mobile Toggle-->
+            <button class="kt-app__aside-close" id="kt_chat_aside_close">
+                <i class="la la-close"></i>
+            </button>
+
+            <!--End:: App Aside Mobile Toggle-->
+            <!--Begin:: App Content-->
+            <div class="kt-grid__item kt-grid__item--fluid kt-app__content" id="kt_chat_content">
+                <div class="kt-chat">
+                    <div class="kt-portlet kt-portlet--head-lg kt-portlet--last">
+                        <div class="kt-portlet__head">
+                            <div class="kt-chat__head ">
+                                <div class="kt-chat__left">
+
+                                    <!--begin:: Aside Mobile Toggle -->
+                                    <button type="button" class="btn btn-clean btn-sm btn-icon btn-icon-md kt-hidden-desktop" id="kt_chat_aside_mobile_toggle">
+                                        <i class="flaticon2-open-text-book"></i>
+                                    </button>
+
+                                    <!--end:: Aside Mobile Toggle-->
+
+                                </div>
+                                <div class="kt-chat__center">
+                                    <div class="kt-chat__label">
+                                        <a href="#" class="kt-chat__title">@Model</a>
+                                        <span class="kt-chat__status">
+                                            <span class="kt-badge kt-badge--dot kt-badge--success"></span> Active
+                                        </span>
+                                    </div>
+                                    <div class="kt-chat__pic kt-hidden">
+                                        <span class="kt-userpic kt-userpic--sm kt-userpic--circle" data-toggle="kt-tooltip" data-placement="right" title="Jason Muller" data-original-title="Tooltip title">
+                                            <img src="./assets/media/users/300_12.jpg" alt="image">
+                                        </span>
+                                        <span class="kt-userpic kt-userpic--sm kt-userpic--circle" data-toggle="kt-tooltip" data-placement="right" title="Nick Bold" data-original-title="Tooltip title">
+                                            <img src="./assets/media/users/300_11.jpg" alt="image">
+                                        </span>
+                                        <span class="kt-userpic kt-userpic--sm kt-userpic--circle" data-toggle="kt-tooltip" data-placement="right" title="Milano Esco" data-original-title="Tooltip title">
+                                            <img src="./assets/media/users/100_14.jpg" alt="image">
+                                        </span>
+                                        <span class="kt-userpic kt-userpic--sm kt-userpic--circle" data-toggle="kt-tooltip" data-placement="right" title="Teresa Fox" data-original-title="Tooltip title">
+                                            <img src="./assets/media/users/100_4.jpg" alt="image">
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="kt-chat__right">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="kt-portlet__body msg">
+                            <div class="kt-scroll kt-scroll--pull" data-mobile-height="300">
+                                <div class="kt-chat__messages" id="msgs">
+                                    <label> @ViewData["FilePath"]</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="kt-portlet__foot">
+                            <div class="kt-chat__input">
+                                <div class="kt-chat__editor">
+                                    <input type="text" style="max-width:unset;width:100%;max-width:100%" id="MessageField" placeholder="type message and press enter" />
+                                </div>
+
+                                <div class="kt-chat__toolbar">
+                                    <div class="kt_chat__tools">
+                                        <form asp-controller="UploadFiles" asp-action="Index" method="post"
+                                              enctype="multipart/form-data">
+                                            <input type="file" name="file" />
+                                            <button type="submit">Upload Image</button>
+                                        </form>
+
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--End:: App Content-->
+        </div>
+
+        <!--End::App-->
+    </div>
+
+    <!-- end:: Content -->
+
+
+
+@section Scripts {
+
+
+    <script>
+    $(function () {
+        var userName = '@Model';
+
+        var protocol = location.protocol === "https:" ? "wss:" : "ws:";
+        var wsUri = protocol + "//" + window.location.host;
+        var socket = new WebSocket(wsUri);
+        socket.onopen = e => {
+            console.log("socket opened", e);
+        };
+
+        socket.onclose = function (e) {
+            console.log("socket closed", e);
+        };
+
+        socket.onmessage = function (e) {
+            console.log(e);
+            $('#msgs').append(e.data + '<br />');
+        };
+
+        socket.onerror = function (e) {
+            console.error(e.data);
+        };
+
+        $('#MessageField').keypress(function (e) {
+            if (e.which != 13) {
+                return;
+            }
+
+            e.preventDefault();
+
+            var message = userName + ": " + $('#MessageField').val();
+            socket.send(message);
+            $('#MessageField').val('');
+        });
+    });
+    </script>
+}
+

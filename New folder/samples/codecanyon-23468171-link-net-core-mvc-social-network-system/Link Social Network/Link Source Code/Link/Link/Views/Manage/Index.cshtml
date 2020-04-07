@@ -1,0 +1,150 @@
+﻿@model IndexViewModel
+@{
+    ViewData["Title"] = "";
+    ViewData.AddActivePage(ManageNavPages.Index);
+}
+
+
+@Html.Partial("_StatusMessage", Model.StatusMessage)
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">Profile Group</h3>
+    </div>
+    <div class="panel-body">
+        <h4>Update your profile information.</h4>
+
+        <form method="post">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="text-center">
+                        @if (Model.Avatar != null)
+                        {
+                            <img src="@string.Format("data:image;base64,{0}", Convert.ToBase64String(Model.Avatar))" accept="image/*" class="avatar img-circle img-thumbnail" alt="avatar">
+                        }
+                        else
+                        {
+                            <img src="~/images/avatar.png" accept="image/*" class="avatar img-circle img-thumbnail" alt="avatar">
+                        }
+                        <h6>Upload photo...</h6>
+                        <input type="file" class="text-center center-block avatar-upload">
+                    </div>
+                    <br>
+
+                    <ul class="list-group">
+                        <li class="list-group-item text-right"><span class="pull-left"><strong>Viewers</strong></span> @Model.NumberOfViewer</li>
+                        <li class="list-group-item text-right"><span class="pull-left"><strong>Followers</strong></span> @Model.NumberOfFollwer</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+
+                    <div asp-validation-summary="All" class="text-danger"></div>
+
+                    <div class="form-group">
+                        <label asp-for="Username"></label>
+                        <input asp-for="Username" autocomplete="off" class="form-control" />@*disabled*@
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Email"></label>
+                        @if (Model.IsEmailConfirmed)
+                        {
+                            <div class="input-group">
+                                <input asp-for="Email" class="form-control" autocomplete="off" />
+                                <span class="input-group-addon" aria-hidden="true"><span class="glyphicon glyphicon-ok text-success"></span></span>
+                            </div>
+                        }
+                        else
+                        {
+                            <input asp-for="Email" class="form-control" autocomplete="off" />
+                            <button asp-action="SendVerificationEmail" class="btn btn-link">Send verification email</button>
+                        }
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PhoneNumber" autocomplete="off"></label>
+                        <input asp-for="PhoneNumber" class="form-control" />
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="GenderId"></label>
+                        <select asp-for="GenderId" class="form-control">
+                            <option value=""></option>
+                            <option value="1">Male</option>
+                            <option value="2">Female</option>
+                        </select>
+                        <span asp-validation-for="Gender" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="BirthDate"></label>
+                        <input asp-for="BirthDate" type="date" class="form-control" />
+                        <span asp-validation-for="BirthDate" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Description"></label>
+                        <textarea asp-for="Description" class="form-control" text-wrap:normal" type="text" placeholder="Please add your description here"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="SocialMedia"></label>
+                        <textarea asp-for="SocialMedia" class="form-control" text-wrap:normal" type="text" placeholder="Please add your Social media  links here"></textarea>
+                        <span asp-validation-for="SocialMedia" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                </div>
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-primary  btn-block">Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var readURL = function (input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        $('.avatar').attr('src', e.target.result);
+                    }
+
+                    reader.readAsDataURL(input.files[0]);
+
+                    if (window.FormData !== undefined) {
+                        var formData = new FormData();
+                        formData.append("file", input.files[0]);
+                        $.ajax({
+                            url: '/Manage/UploadAvatar/',
+                            type: 'post',
+                            data: formData,
+                            cache: false,
+                            contentType: false,
+                            processData: false,
+                            success: function (data) {
+
+                            },
+                            error: function (data) {
+
+                            }
+                        });
+                    }
+                }
+            }
+            $(".avatar-upload").on('change', function () {
+                readURL(this);
+            });
+        });
+    </script>
+}

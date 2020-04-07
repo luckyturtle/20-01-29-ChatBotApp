@@ -1,0 +1,21 @@
+--------------------------------------------------------------------------------------------------------------
+------------------------------------------ Link Social Network -----------------------------------------------
+--------------------------------------------------------------------------------------------------------------
+
+New Features:
+- Bottom navigation menu: 
+it is one of the best practices in mobile UX design. This feature allows users to interact 
+freely with their phone using either their thumb or finger. 
+ 
+- Video and audio chat: this feature allowing two users to communicate directly.
+This feature built upon WebRTC technology. A WebRTC is an open source project built and maintained by Google, 
+Mozilla, Opera and others. It allows you to easily build real-time chat communication in the browser.
+in addition, it eliminating the need 
+to install plugins or download native apps.
+
+```````````````````````````````````````````````````````````````````````````````````
+Enhancements:
+- Improve the navigation, using the Bottom navigation menu.
+- Improve the responsive.
+- Improve mobile view and interaction.
+- Fixing some bugs.

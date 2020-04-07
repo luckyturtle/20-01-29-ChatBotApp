@@ -1,0 +1,22 @@
+If you had some of these problems after publish your project:
+- error 405 methods not allowed asp net core put delete requests.
+- fails on login or new registration.
+
+Then
+
+Copy and paste the below code into  "web.config" 
+into  <system.webServer> </system.webServer> element.
+ <modules runAllManagedModulesForAllRequests="false">
+        <remove name="WebDAVModule" />
+  </modules>
+
+Or 
+
+1. Open  "Files can help" folder. You will find "web.config" file.
+2. Copy and paste it into you published folder project.
+
+
+
+
+
+

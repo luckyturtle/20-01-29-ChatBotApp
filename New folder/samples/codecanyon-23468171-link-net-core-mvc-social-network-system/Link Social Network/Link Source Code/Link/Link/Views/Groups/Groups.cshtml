@@ -1,0 +1,165 @@
+﻿@***********************************************************************************************************************
+    * Link  is a Social Network for enable distributed user to involve, collaborate and communicate .
+    * Copyright(C) 2019 Indie Sudio. All rights reserved.
+    * https://indiestd.com/
+    * info@indiestd.com
+    *********************************************************************************************************************@
+
+@model List<Link.Models.GroupViewModels.GroupViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "_SubLayout";
+}
+
+<div class="col-md-12 group-list">
+
+    <h3> My Groups  </h3>
+
+    <hr />
+    <div class="input-group">
+        <input type="text" class="form-control sub-search" placeholder="Find Group" id="group-name">
+        <span class="input-group-btn">
+            <button id="find-group" class="btn btn-default">
+                <i class="fa fa-search"></i>
+            </button>
+        </span>
+    </div>
+    <br />
+    <div class="row groupMain" id="groupMain">
+    </div>
+    <button id="btnLoadMoreGroup" class="btn btn-default btn-block  btn-transparent" style="color:#0198dd;border-radius:3px!important"> Load More  </button>
+    <br />
+</div>
+
+
+
+@section Scripts {
+    <script type="text/javascript">
+
+          function followGroup(gid) {
+                $.ajax({
+                    type: 'put',
+                    url: '@Url.Content("~")/Groups/Follow/' + gid,
+                    success: function (val) {
+                        $("#f-" + gid).text(val)
+                    },
+                    error: function () {
+
+                    }
+                });
+            }
+        $(document).ready(function () {
+
+            var pageCount = 0;
+            var g_search_name = "*";
+
+
+
+
+            function checkGroupCountAndManageLoadingElement(pageCount) {
+            $.ajax({
+                type: 'Get',
+                url: '@Url.Content("~")/api/Groups/numberOfCurrentUserGroup',
+                success: function (val) {
+               if (val <= pageCount+1) {
+                $("#btnLoadMoreGroup").hide();
+                  }
+                },
+                error: function () {
+                 }
+             });
+            }
+
+            function loadGroup(name) {
+                if (name == '' || name.length == 0) { name = "*"; }
+
+                 $.ajax({
+                     type: 'get',
+                     async: false,
+                     url: '@Url.Content("~")/api/Groups/loadCurrentUserGroups/' + name + '/' + pageCount,
+                        success: function (list) {
+
+                            $.each(list, function (index, value) {
+
+                                var str = "";
+
+                                str += '  <div class="col-md-3 col-sm-4">';
+                                str += '<div class="groupBlock">';
+                                str += '  <div class="backgrounImg">';
+                                str += '<img src="@Url.Content("~")/images/background1.jpg">';
+                                str += '</div>';
+
+                                str += '<div class="groupImg">';
+
+                                if (value.photoIsExist) {
+
+                                    str += '  <img src="@Url.Content("~")/Groups/ViewImage/' + value.id + '" accept="image/*" width="150" height="150" class="group-photo img-circle img1-thumbnail" alt="photo"> ';
+                                } else {
+                                    str += '  <img src="@Url.Content("~")/images/default-image.svg" accept="image/*" width="150" height="150" class="group-photo img-circle img1-thumbnail" alt="photo"> ';
+                                }
+                                str += '</div>';
+
+                                str += '<div class="groupDescription">';
+                                str += '<h5>';
+                                str += '<a href="@Url.Content("~")/Groups/Details/' + value.id + '" >' + value.name + '</a>';
+                                str += '</h5>';
+
+                                str += '<div class="followrs">';
+                                str += ' <span class="number " id=f-' + value.id+'>' + value.numberOfMember + '</span>';
+                                str += ' <span>Followers</span>';
+                                str += '</div>';
+                                str += '<div class="viewers">';
+                                str += ' <span class="number">' + value.numberOfViewer + '</span>';
+                                str += ' <span>Viewers</span>';
+                                str += '</div>';
+
+                                str += ' <span class="" data-toggle="buttons"   onclick="followGroup(\'' + value.id + '\'); return false" >';
+
+                                str += '<label class="btn btn-info btn-follow"> ' +
+                                    '<input type = "radio" name = "options"  autocomplete = "off">' +
+                                    '<i class="fa fa-minus-circle"></i> UnFollow</label> ' +
+                                    '<label class="btn btn-info btn-follow active"> ' +
+                                    ' <input type="radio" name="options"  autocomplete="off" checked>' +
+                                    ' <i class="fa fa-plus-circle"></i> Follow</label> ';
+                                str += '</span>';
+
+                                str += ' </div>';
+                                     str += ' </div>';
+
+                                $("#groupMain").append(str);
+                                     pageCount ++;
+                            });
+
+                            checkGroupCountAndManageLoadingElement(pageCount);
+
+                        }
+
+                    });
+            }
+
+            loadGroup(g_search_name);
+
+            $("#btnLoadMoreGroup").click(function () {
+                loadGroup(g_search_name);
+            });
+
+            $("#find-group").click(function () {
+                $("#groupMain").empty();
+                pageCount = 0;
+                g_search_name = $("#group-name").val();
+                loadGroup(g_search_name);
+            });
+
+
+            $(function () {
+                $('[data-toggle="tooltip"]').tooltip()
+            });
+
+
+
+
+
+        });
+    </script>
+}

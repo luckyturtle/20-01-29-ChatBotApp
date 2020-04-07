@@ -1,0 +1,37 @@
+﻿@***********************************************************************************************************************
+    * Link  is a Social Network for enable distributed user to involve, collaborate and communicate .
+    * Copyright(C) 2019 Indie Sudio. All rights reserved.
+    * https://indiestd.com/
+    * info@indiestd.com
+    *********************************************************************************************************************@
+
+<div id="ptpCall" data-backdrop="static" data-keyboard="false" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <button type="button" class="close hangUp" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Video Calling..</h4>
+            </div>
+            <div class="modal-body">
+                <div id="callPage" class="call-page">
+                    <video class="video mine localVideo" autoplay></video>
+                    <video class="video partner remoteVideo" autoplay></video>
+                </div>
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" title="Start Calling" class="btn btn-success  btn-lg btn-circle callUser"><i class="glyphicon glyphicon-facetime-video"></i></button>
+                <button type="button" title="Hang Up" class="btn btn-danger btn-lg btn-circle hangUp"><i class="glyphicon glyphicon-phone-alt"></i></button>
+
+
+            </div>
+        </div>
+
+    </div>
+</div>
+<input type="hidden" name="calleeUserName" id="calleeUserName" />
+<input type="hidden" name="callerName" id="callerName" value="@User.Identity.Name" />
+

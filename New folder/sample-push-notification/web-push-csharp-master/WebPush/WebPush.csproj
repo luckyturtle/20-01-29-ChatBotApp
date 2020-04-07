@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard1.1;netstandard2.0;net45;net46</TargetFrameworks>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>1.0.11</Version>
+    <Authors>Cory Thompson</Authors>
+    <Company />
+    <Product />
+    <Description>Web Push library for C#</Description>
+    <PackageLicenseUrl>https://github.com/web-push-libs/web-push-csharp/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/web-push-libs/web-push-csharp/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/web-push-libs/web-push-csharp/</RepositoryUrl>
+    <PackageTags>web push notifications vapid</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="Portable.BouncyCastle" Version="1.8.1.3" />
+    <PackageReference Include="System.Net.Http" Version="4.3.3" />
+  </ItemGroup>
+
+</Project>

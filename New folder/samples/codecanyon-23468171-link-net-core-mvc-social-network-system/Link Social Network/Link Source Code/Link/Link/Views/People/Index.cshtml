@@ -1,0 +1,160 @@
+﻿@***********************************************************************************************************************
+    * Link  is a Social Network for enable distributed user to involve, collaborate and communicate .
+    * Copyright(C) 2019 Indie Sudio. All rights reserved.
+    * https://indiestd.com/
+    * info@indiestd.com
+    *********************************************************************************************************************@
+
+@model List<Link.Models.PeopleViewModels.PeopleViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "_SubLayout";
+}
+
+<div class="col-md-12  group-list">
+    <h3> People  </h3>
+    <hr />
+    <div class="input-group">
+        <input type="text" class="form-control sub-search" id="person-name" placeholder="Find Persons">
+        <span class="input-group-btn">
+            <button id="find-person" class="btn btn-default">
+                <i class="fa fa-search"></i>
+            </button>
+        </span>
+    </div>
+    <br />
+    <div class="row groupMain" id="groupMain">
+    </div>
+    <button id="btnLoadMorePeople" class="btn btn-default btn-block  btn-transparent" style="color:#0198dd;border-radius:3px!important"> Load More  </button>
+    <br />
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        function follow(gid) {
+               $.ajax({
+                type: 'put',
+                url: '@Url.Content("~")/api/Profile/Follow/' + gid,
+                success: function (val) {
+                    $("#f-" + gid).text(val)
+                },
+                error: function () {
+                   }
+            });
+       }
+        var counter = 0;
+
+        $(document).ready(function () {
+            var pagePeopleCount = 0;
+            var p_search_name = "*";
+
+            function checkPeopleCountAndManageLoadingElement(pageCount) {
+                $.ajax({
+                type: 'Get',
+                url: '@Url.Content("~")/api/People/numberOfPeople',
+                    success: function (val) {
+                if (val <= pageCount+1) {
+                $("#btnLoadMorePeople").hide();
+                  }
+                },
+                error: function () {
+                },
+                });
+            }
+
+            function LoadPeople(name) {
+                if (name == '' || name.length==0) { name = "*"; }
+                $.ajax({
+                    async: false,
+                        type: 'get',
+                     url: '@Url.Content("~")/api/People/' + name +'/' + pagePeopleCount,
+                        success: function (list) {
+                            $.each(list, function (index, value) {
+
+                                var str = "";
+                                str += '<div class="col-md-3 col-sm-4">';
+                                str += '<div class="groupBlock">';
+                                str += '<div class="backgrounImg">';
+                                str += '<img src="@Url.Content("~")/images/background1.jpg">';
+                                str += '</div>';
+
+                                str += '<div class="groupImg">';
+
+                                if (value.photoIsExist) {
+
+                                    str += '  <img src="@Url.Content("~")/Profile/GetUserProfile/' + value.id + '" accept="image/*" width="150" height="150" class="group-photo img-circle img1-thumbnail" alt="photo"> ';
+                                } else {
+                                    str += '  <img src="@Url.Content("~")/images/default-image.svg" accept="image/*" width="150" height="150" class="group-photo img-circle img1-thumbnail" alt="photo"> ';
+                                }
+
+                                str += '</div>';
+
+                                str += '<div class="groupDescription">';
+                                str += '<h5>';
+                                str += '<a href="@Url.Content("~")/Profile/' + value.name + '" >' + value.name + '</a>';
+                                str += '</h5>';
+
+                                str += '<div class="followrs">';
+                                str += ' <span class="number " id=f-' + value.id + '>' + value.numberOfFollwer + '</span>';
+                                str += ' <span>Followers</span>';
+                                str += '</div>';
+                                str += '<div class="viewers">';
+                                str += ' <span class="number">' + value.numberOfViewer + '</span>';
+                                str += ' <span>Viewers</span>';
+                                str += '</div>';
+                                str += ' <span class="" data-toggle="buttons"   onclick="follow(\'' + value.id + '\'); return false" >';
+
+                                if (value.isCurrentUserFollowUser) {
+                                    str += '<label class="btn btn-info btn-follow"> ' +
+                                        '<input type = "radio" name = "options"  autocomplete = "off">' +
+                                        '<i class="fa fa-minus-circle"></i> UnFollow</label> ' +
+                                        '<label class="btn btn-info active btn-follow"> ' +
+                                        ' <input type="radio" name="options"  autocomplete="off" checked>' +
+                                        ' <i class="fa fa-plus-circle"></i> Follow</label> ';
+
+                                }
+
+                                    else {
+                                    str += '<label class="btn btn-info active btn-follow"> ' +
+                                        '<input type = "radio" name = "options"   autocomplete = "off" checked>' +
+                                        '<i class="fa fa-minus-circle"></i >UnFollow</label> ' +
+                                        '<label class="btn btn-info btn-follow"> ' +
+                                        ' <input type="radio" name="options"  autocomplete="off">' +
+                                        ' <i class="fa fa-plus-circle"></i> Follow</label> ';
+                                }
+
+                                str += '</span>';
+                                str += ' </div>';
+                                str += ' </div>';
+
+                                $("#groupMain").append(str);
+                                     pagePeopleCount++;
+                            });
+
+                            checkPeopleCountAndManageLoadingElement(pagePeopleCount);
+                        }
+                    });
+
+            }
+
+            LoadPeople(p_search_name);
+
+            $("#btnLoadMorePeople").click(function () {
+                LoadPeople(p_search_name);
+            });
+
+            $("#find-person").click(function () {
+                $("#groupMain").empty();
+                pagePeopleCount = 0;
+                p_search_name = $("#person-name").val();
+                LoadPeople(p_search_name);
+            });
+
+            $(function () {
+                $('[data-toggle="tooltip"]').tooltip()
+            })
+
+        });
+    </script>
+}

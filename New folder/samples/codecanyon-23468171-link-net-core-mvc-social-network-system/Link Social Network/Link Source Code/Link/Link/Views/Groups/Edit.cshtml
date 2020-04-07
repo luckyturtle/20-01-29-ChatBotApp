@@ -1,0 +1,148 @@
+﻿@***********************************************************************************************************************
+    * Link  is a Social Network for enable distributed user to involve, collaborate and communicate .
+    * Copyright(C) 2019 Indie Sudio. All rights reserved.
+    * https://indiestd.com/
+    * info@indiestd.com
+    *********************************************************************************************************************@
+
+@model Link.Models.GroupViewModels.GroupViewModel
+
+@{
+    Layout = "_SubLayout";
+    ViewData["Title"] = "Create New Group";
+
+}
+
+<div class="col-md-12 group-list">
+
+    <h3>Update Group</h3>
+    <hr />
+    <div>
+        <form method="post" enctype="multipart/form-data">
+            <input type="hidden" asp-for="Id" />
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="text-center">
+
+                        @if (Model.PhotoIsExist)
+                        {
+
+                            <img width="150" height="150" src="@Url.Content("~")/Groups/ViewImage/@Model.Id" accept="image/*" class="group-photo img-circle" alt="photo">
+                        }
+                        else
+                        {
+                            <img src="~/images/default-image.svg" accept="image/*" width="150" height="150" class="group-photo img-circle" alt="photo">
+                        }
+
+                        <input type="file" asp-for="Photo" class="text-center center-block group-photo-upload">
+                        <h6>Upload photo...</h6>
+
+                    </div>
+
+                    <br>
+                    @if (Model != null)
+                    {
+                        <ul class="list-group">
+                            <li class="list-group-item text-right"><span class="pull-left"><strong>Members</strong></span> @Model?.NumberOfMember</li>
+                            <li class="list-group-item text-right"><span class="pull-left"><strong>Viewers</strong></span> @Model?.NumberOfViewer</li>
+                        </ul>
+                    }
+                </div>
+                <div class="col-md-6">
+
+                    <div asp-validation-summary="All" class="text-danger"></div>
+
+                    <div class="form-group">
+                        <label asp-for="Name"></label>
+                        <input asp-for="Name" class="form-control" />@*disabled*@
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="GroupTypeId"></label>
+                        <select asp-for="GroupTypeId" class="form-control">
+                            <option value=""></option>
+                            <option value="1">Public</option>
+                            <option value="2">Private</option>
+                        </select>
+                        <span asp-validation-for="GroupTypeId" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Description"></label>
+                        <textarea asp-for="Description" class="form-control" text-wrap:normal" type="text" placeholder="Please add your description here"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                </div>
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-primary  btn-block">Save</button>
+                    <br />
+
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+
+
+
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var readURL = function (input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        $('.group-photo').attr('src', e.target.result);
+                    }
+
+                    reader.readAsDataURL(input.files[0]);
+
+                    if (window.FormData !== undefined) {
+                        var formData = new FormData();
+                        formData.append("file", input.files[0]);
+                        $.ajax({
+                            url: '/Groups/UploadGroupPhoto/@Model?.Id',
+                            type: 'post',
+                            data: formData,
+                            cache: false,
+                            contentType: false,
+                            processData: false,
+                            success: function (data) {
+
+                            },
+                            error: function (data) {
+
+                            }
+                        });
+                    }
+
+                }
+            }
+            $(".group-photo-upload").on('change', function () {
+                readURL(this);
+            });
+
+        });
+
+
+    </script>
+}

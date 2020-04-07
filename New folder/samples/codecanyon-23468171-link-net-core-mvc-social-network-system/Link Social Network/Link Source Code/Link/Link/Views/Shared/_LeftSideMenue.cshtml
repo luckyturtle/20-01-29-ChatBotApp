@@ -1,0 +1,75 @@
+﻿@***********************************************************************************************************************
+    * Link  is a Social Network for enable distributed user to involve, collaborate and communicate .
+    * Copyright(C) 2019 Indie Sudio. All rights reserved.
+    * https://indiestd.com/
+    * info@indiestd.com
+    *********************************************************************************************************************@
+
+@inject UserManager<ApplicationUser> UserManager
+@{
+    var currentUserId = @UserManager.GetUserId(User);
+    var isUserAvatarExist = UserManager.Users.SingleOrDefault(u => u.UserName.Equals(User.Identity.Name))?.Avatar != null;
+
+}
+<div class="left-content scrollbar-left-side_menu">
+
+    <div class="global-links">
+
+        <a asp-area="" asp-controller="Profile" asp-action="Index" asp-route-id="@User.Identity.Name">
+            @if (currentUserId != null && isUserAvatarExist)
+            {
+                <img width="20" src="@Url.Content("~")/Profile/GetUserProfile/@currentUserId" class="img-circle" accept="image/*">
+            }
+            else
+            {
+                <img width="20" src="~/images/avatar.png" accept="image/*" class="img-circle">
+            } My Page
+        </a>
+
+        <div class="group-content">
+            <h4>My Groups</h4>
+            <div id="sideGroupMain">
+            </div>
+            <a asp-area="" asp-controller="Groups" asp-action="Groups">
+
+                <span>See More..</span>
+            </a>
+        </div>
+
+        <div class="group-content">
+            <h4>explore</h4>
+            <a asp-area="" asp-controller="Profile" asp-action="Friends">
+                <img src="~/images/friend-sm.png" /> Friends
+            </a>
+            <a asp-area="" asp-controller="People" asp-action="Index">
+                <span class="fa fa-globe"></span> People
+            </a>
+            <a asp-area="" asp-controller="Groups" asp-action="Index">
+                <span class="fa fa-group"></span> Groups
+            </a>
+
+        </div>
+
+        <div class="group-content">
+            <h4>create</h4>
+            <a asp-area="" asp-controller="Groups" asp-action="Create">
+                <span class="fa fa-group"></span> Groups
+            </a>
+        </div>
+
+        @if (User.IsInRole("ADMIN"))
+        {
+            <div class="group-content">
+                <h4>Administration</h4>
+                <a href="~/Admin/"><i class="fa fa-bar-chart-o"></i>Statistics</a>
+                <a href="~/Admin/UserProfiles/Index"><i class="fa fa-user"></i> Profiles</a>
+                <a href="~/Admin/Group/Index"><i class="fa fa-group"></i> Group </a>
+                <a href="~/Admin/Post/Index"><i class="fa fa-comment"></i> Posts </a>
+                <a href="~/Admin/UserLogIn/Index"><i class="fa fa-history"></i> User Login </a>
+            </div>
+        }
+
+
+        <br />
+    </div>
+</div>

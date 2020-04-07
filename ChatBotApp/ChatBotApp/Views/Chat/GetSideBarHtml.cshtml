@@ -1,0 +1,140 @@
+﻿@using Models
+@using Models.data
+@{
+    Layout = null;
+}
+@foreach (AgentModel agent in ViewBag.agents)
+{
+    var agentid = "agent" + agent.Id;
+    <li id="@agentid">
+        <a href="#" onclick="agentSelectAction('@agent.Id');">
+            <div class="widget-content p-0">
+                <div class="widget-content-wrapper">
+                    <div class="widget-content-left mr-2">
+                        <img width="35" class="rounded-circle" src="@agent.Avatar" alt="">
+                    </div>
+                    <div class="widget-content-left col-desc">
+                        <div class="widget-heading">@agent.Name</div>
+                        <div class="widget-subheading lastest_message">@agent.LastMessage</div>
+                    </div>
+                    <div class="widget-content-right col-desc">
+                        <div class="text-muted">
+                            <small class="pl-2 lastest_datetime">@agent.LastTime</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </li>
+}
+
+<li id="agent1">
+    <a href="#" onclick="agentSelectAction(1);">
+        <div class="widget-content p-0">
+            <div class="widget-content-wrapper">
+                <div class="widget-content-left mr-2">
+                    <img width="35" class="rounded-circle" src="~/assets-chatroom/images/avatars/9.jpg" alt="">
+                </div>
+                <div class="widget-content-left col-desc">
+                    <div class="widget-heading">Ella-Rose Henry</div>
+                    <div class="widget-subheading lastest_message">Web Developer</div>
+                </div>
+                <div class="widget-content-right col-desc">
+                    <div class="text-muted">
+                        <small class="pl-2 lastest_datetime">
+                            10:15 PM
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </a>
+</li>
+<li id="agent2">
+    <a href="#" onclick="agentSelectAction(2);">
+        <div class="widget-content p-0">
+            <div class="widget-content-wrapper">
+                <div class="widget-content-left mr-2">
+                    <img width="35" class="rounded-circle" src="~/assets-chatroom/images/avatars/5.jpg" alt="">
+                </div>
+                <div class="widget-content-left col-desc">
+                    <div class="widget-heading">Ruben Tillman</div>
+                    <div class="widget-subheading lastest_message">UI Designer</div>
+                </div>
+                <div class="widget-content-right col-desc">
+                    <div class="text-muted">
+                        <small class="pl-2 lastest_datetime">
+                            12:12 PM
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </a>
+</li>
+<li id="agent3">
+    <a href="#" onclick="agentSelectAction(3);">
+        <div class="widget-content p-0">
+            <div class="widget-content-wrapper">
+                <div class="widget-content-left mr-2">
+                    <img width="35" class="rounded-circle" src="~/assets-chatroom/images/avatars/4.jpg" alt="">
+                </div>
+                <div class="widget-content-left col-desc">
+                    <div class="widget-heading">Vinnie Wagstaff</div>
+                    <div class="widget-subheading lastest_message">Java Programmer</div>
+                </div>
+                <div class="widget-content-right col-desc">
+                    <div class="text-muted">
+                        <small class="pl-2 lastest_datetime">
+                            Thu
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </a>
+</li>
+<li id="agent4">
+    <a href="#" onclick="agentSelectAction(4);">
+        <div class="widget-content p-0">
+            <div class="widget-content-wrapper">
+                <div class="widget-content-left mr-2">
+                    <img width="35" class="rounded-circle" src="~/assets-chatroom/images/avatars/3.jpg" alt="">
+                </div>
+                <div class="widget-content-left col-desc">
+                    <div class="widget-heading">Ella-Rose Henry</div>
+                    <div class="widget-subheading lastest_message">Web Developer</div>
+                </div>
+                <div class="widget-content-right col-desc">
+                    <div class="text-muted">
+                        <small class="pl-2 lastest_datetime">
+                            Thu
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </a>
+</li>
+<li id="agent5">
+    <a href="#" onclick="agentSelectAction(5);">
+        <div class="widget-content p-0">
+            <div class="widget-content-wrapper">
+                <div class="widget-content-left mr-2">
+                    <img width="35" class="rounded-circle" src="~/assets-chatroom/images/avatars/2.jpg" alt="">
+                </div>
+                <div class="widget-content-left col-desc">
+                    <div class="widget-heading">Ruben Tillman</div>
+                    <div class="widget-subheading lastest_message">UI Designer</div>
+                </div>
+                <div class="widget-content-right col-desc">
+                    <div class="text-muted">
+                        <small class="pl-2 lastest_datetime">
+                            Thu
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </a>
+</li>

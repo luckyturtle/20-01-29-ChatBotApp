@@ -1,0 +1,160 @@
+<style>
+
+
+
+html, body {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  background: linear-gradient(35deg, #7cb8cf, #e35a57);
+  /*background: linear-gradient(45deg, #00dbdf, #f903fb);
+  */
+font-family: Poppins-Regular;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+.wrapper{
+  margin: auto;
+  width: 730px;
+  height:588px;
+  border-radius: 1%;
+  padding: 0px 0px;
+  background: #fff;
+  display: flex;
+}
+.left-content{
+	width: 53%;
+    float: left;
+	
+	padding: 20px 40px;
+	padding: 20px 40px;
+	margin: auto;
+}
+.right-content{
+	width: 47%;
+    padding: 20px 56px;
+    margin: auto; 
+    border-left-style: solid;
+    border-color: #56595f;
+    border-width: 1px;
+}
+.logo{
+	text-align: center;
+	padding-bottom: 35px;
+}
+.logo img{
+    width: 160px;
+}
+
+.f1{
+	font-size: 19px;
+    color: #d35134;
+    font-weight: bold;
+    text-align: left;
+	padding-bottom: 8px;
+}
+.f2{
+	    font-size: 14px;
+    font-weight: 100;
+    color: #56595f;
+	    line-height: 22px;
+}
+.f3{
+	font-size: 21px;
+	text-align: center;
+    font-weight: bold;
+	color: #56595f;
+}
+.f4{
+	    font-size: 13px;
+    font-weight: 200;
+    color: #7cb8cf;
+}
+</style>
+
+<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="animate.css">
+<link rel="stylesheet" type="text/css" href="util.css">
+<link rel="stylesheet" type="text/css" href="main.css">
+<body>
+<div class="wrapper">
+
+	<div class="left-content">
+			<div class="logo" ><img src="login-img/logo.png"/></div>
+			<p class="f1">Welcome back!</p>
+			<div style="padding-bottom: 39px;"><!-- style="background-image: url(screen.png);background-repeat: no-repeat;">-->
+			<span class="f2">Tricentrix Data Analytics platform offers custom <font style="font-weight:bold;">BI Solutions</font> that deliver <font style="font-weight:bold;">insights</font> that drives positive results which impact business performance, efficiency, and quality.</span>
+			
+			</div>
+			<p><table style="width:110%;"><tr><td><a><span class="f4">
+			HOME</span></a></td>
+			<td><a><span class="f4">
+			ABOUT</span></a></td>
+			<td><a><span class="f4">
+			SERVICES</span></a></td>
+			<td><a><span class="f4">
+			COMPEENCIES</span></a></td></tr></table></p>
+		
+	</div>
+	<div class="right-content">
+		<div class="login100-pic js-tilt" data-tilt>
+			<img src="login-img/user.png" alt="IMG">
+		</div>
+
+		<form class="login100-form validate-form">
+			<span class="login100-form-title">
+				Login below to get started
+			</span>
+
+			<div class="wrap-input100 validate-input" data-validate = "Password is required">
+				<input class="input100" type="text" id="username" name="username">
+				<span class="focus-input100"></span>
+				<span class="symbol-input100">
+					<i class="fa fa-user" aria-hidden="true"></i>
+				</span>
+			</div>
+
+			<div class="wrap-input100 validate-input" data-validate = "Password is required">
+				<input class="input100" type="password" id="password" name="password">
+				<span class="focus-input100"></span>
+				<span class="symbol-input100">
+					<i class="fa fa-lock" aria-hidden="true"></i>
+				</span>
+			</div>
+			
+			<div class="container-login100-form-btn">
+				<span class="login100-form-btn">
+					Login
+				</span>
+			</div>
+		</form>
+	</div>
+</div>
+</body>
+<script src="jquery-3.2.1.min.js"></script>
+<script src="superplaceholder.js"></script>
+<script>
+(function () {
+        //var test = document.createElement('input');
+        document.getElementById('username').value = '';
+        document.getElementById('Password').value = '';
+    });
+    superplaceholder({
+        el: username,
+        sentences: ['Username', 'David', 'Amit'],
+        options: {
+            loop: true,
+            startOnFocus: false
+        }
+    })
+    superplaceholder({
+        el: password,
+        sentences: ['Password', '.....','....'],
+        options: {
+            loop: true,
+            startOnFocus: false
+        }
+    });
+</script>

@@ -1,0 +1,594 @@
+@***********************************************************************************************************************
+    * Link  is a Social Network for enable distributed user to involve, collaborate and communicate .
+    * Copyright(C) 2019 Indie Sudio. All rights reserved.
+    * https://indiestd.com/
+    * info@indiestd.com
+    *********************************************************************************************************************@
+
+@inject UserManager<ApplicationUser> UserManager
+@{
+    var currentUserId = @UserManager.GetUserId(User);
+}
+<script>
+       //preparing some of puplic veriables
+
+        var root = '@Url.Content("~")';
+</script>
+
+<environment include="Development">
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/lib/signalr/dist/browser/signalr.js"></script>
+    <script src="~/lib/bootbox.js/bootbox.js"></script>
+    <script src="~/lib/emoji-picker/js/config.js"></script>
+    <script src="~/lib/emoji-picker/js/util.js"></script>
+    <script src="~/lib/emoji-picker/js/jquery.emojiarea.js"></script>
+    <script src="~/lib/emoji-picker/js/emoji-picker.js"></script>
+    <script src="~/lib/jquery.textcomplete/jquery.textcomplete.js"></script>
+    <script src="~/lib/Readmore.js/readmore.js"></script>
+    <script src="~/js/jquery-comments.js"></script>
+    <script src="~/js/jquery-comments-chat.js"></script>
+    <script src="~/js/multiple-emails.js"></script>
+    <script src="~/js/chatbox-popup.js" asp-append-version="true"></script>
+    <script src="~/lib/AlertifyJS/alertify.js"></script>
+    <script src="~/lib/tweenmax/TweenMax.min.js"></script>
+    <script src="~/lib/draggable/draggable.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/adapter.js" asp-append-version="true"></script>
+    <script src="~/js/connectionManager.js" asp-append-version="true"></script>
+    <script src="~/js/WebRctApp.js" asp-append-version="true"></script>
+</environment>
+
+<environment exclude="Development">
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/lib/signalr/dist/browser/signalr.min.js"></script>
+    <script src="~/lib/bootbox.js/bootbox.min.js"></script>
+    <script src="~/lib/emoji-picker/js/config.min.js"></script>
+    <script src="~/lib/emoji-picker/js/util.min.js"></script>
+    <script src="~/lib/emoji-picker/js/jquery.emojiarea.min.js"></script>
+    <script src="~/lib/emoji-picker/js/emoji-picker.min.js"></script>
+    <script src="~/lib/jquery.textcomplete/jquery.textcomplete.min.js"></script>
+    <script src="~/lib/Readmore.js/readmore.min.js"></script>
+    <script src="~/js/jquery-comments.min.js"></script>
+    <script src="~/js/jquery-comments-chat.min.js"></script>
+    <script src="~/js/multiple-emails.min.js"></script>
+    <script src="~/js/chatbox-popup.min.js"></script>
+    <script src="~/lib/AlertifyJS/alertify.min.js"></script>
+    <script src="~/lib/tweenmax/TweenMax.min.js"></script>
+    <script src="~/lib/draggable/draggable.min.js"></script>
+    <script src="~/js/site.min.js"></script>
+    <script src="~/js/adapter.js"></script>
+    <script src="~/js/connectionManager.js"></script>
+    <script src="~/js/WebRctApp.js"></script>
+</environment>
+
+
+
+
+@if (User.Identity.IsAuthenticated)
+{
+    @await Html.PartialAsync("_VoiceVideoChat")
+    @await Html.PartialAsync("_FastAccessLink")
+
+    <script type="text/javascript">
+
+        WebRctApp.startConnection.setup();
+
+//-------------------------------- Start Prepare Notifications-----------------------------------------------
+    var notificationConnection = new signalR.HubConnectionBuilder().withUrl("@Url.Content("~")/notificationHub").build();
+
+        //only for chat session notification
+        notificationConnection.on("RefreshChatNotificationNum", function (num, data) {
+            console.clear();
+
+            $("#main-chat-notification-num").text(num);
+
+            if (data.commentGroupTypeId == "5")// group case
+            {
+                var title = data.creatorName + " sent an message to you";
+                notifyMe(data.creatorName, title, data.content, data.groupId, data.creator, data.fileURL != null, 5);
+            }
+            else if (data.commentGroupTypeId == "4")//profile case
+            {
+                var title = data.creatorName + " sent an message to group " + data.groupName;
+
+                notifyMe(data.groupName, title, data.content, data.groupId, data.creator, data.fileURL != null, 4);
+            }
+
+            if (jQuery.inArray(data.groupId, popups) !== -1) {
+                window["popup-comment-" + data.groupId].appendNewComment(data);
+
+                $("#popup-comment-" + data.groupId).scrollTop($("#popup-comment-" + data.groupId)[0].scrollHeight);
+
+                //set currnt gorup notification as seen by current user
+                $.ajax({
+                    type: 'put',
+                    url: '/api/Notifications/setNotificationAsRead/' + data.groupId + '/1',
+                    success: function () {
+                        //refresh the notification-num
+                        $.ajax({
+                            type: 'get',
+                            url: '/api/Notifications/notificationsNo/1',
+                            success: function (num) {
+                                $("#main-chat-notification-num").text(num);
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+        //General notification case
+        notificationConnection.on("RefreshNotificationNum", function (num, data) {
+            console.clear();
+            $("#main-notification-num").text(num);
+
+            if (data != null) {
+                if (data.commentGroupTypeId == "1")// Profile case
+                {
+                    var title = data.creatorName + "add an post";
+                    notifyMewithGeneralNotification(data.id, data.groupId, 1, title, data.content, data.creator, data.fileURL != null);
+                }
+                else if (data.commentGroupTypeId == "2")//Group case
+                {
+                    var title = data.creatorName + " add an post to group " + data.groupName;
+
+                    notifyMewithGeneralNotification(data.id, data.groupId, 2, title, data.content, data.creator, data.fileURL != null);
+                }
+            }
+        });
+
+
+        notificationConnection.on("RefreshFollowersNotificationNum", function (num) {
+            console.clear();
+
+            $("#main-follower-notification-num").text(num);
+        });
+
+
+        notificationConnection.start();
+    //--------------------------------------End Prepare Notifications------------------------------------------------------
+    var chatNotificationCount = 0;
+    var NotificationCount = 0;
+    var followerstNotificationCount = 0;
+    var groupChatCount = 0;
+    var friendsChatCount = 0;
+    var groupChatLoadMoreIsActive = false;
+    var friendChatLoadMoreIsActive = false;
+
+    function scrollById(id) {
+
+            $('html, body').animate({
+                scrollTop: $('li[data-id="' + id + '"]')
+            },'slow');
+
+        var $el = $('li[data-id="' + id + '"]'), x = 2500, originalColor = $el.css("background");
+            $el.css("background", "#cccccc");
+            setTimeout(function () {
+                $el.css("background", originalColor);
+        }, x);
+
+    }
+
+
+      function loadChatNotification() {
+
+          $.ajax({
+              async: false,
+                      type: 'get',
+                      url: "@Url.Content("~")/api/Notifications/1/" + chatNotificationCount,
+                      success: function (list) {
+
+                          $.each(list, function (index, value) {
+
+                              var str = ' <li class="notification-container"> ';
+
+                              str += '<a href=\'javascript:register_popup("' + value.groupId + '", "' + value.groupName + '","@Url.Content("~")","@currentUserId","' + value.commentGroupType+'"); \'>';
+                              if (value.isSeen) {
+                                  str += ' <i class="fa fa-check-circle-o notification-seen" aria-hidden="true"></i>'
+                              }
+                              if (value.photoIsExist) {
+                                  str += '<img src="@Url.Content("~")/Profile/GetUserProfile/' + value.from + '" accept="image/*" width="30" height="30"  class="img-circle" alt="photo"> ';
+                              } else {
+                                  str += ' <img src="@Url.Content("~")/images/default-image.svg" accept="image/*" width="30" height="30" class="img-circle"  alt="photo">  ';
+                              }
+                              str += ' <b>' + value.fromName + '</b> <div class="notification-title">' + value.title +'</div> ';
+
+
+                              str += '<div class="notification-content">' + escapeHtml(value.content) + '</div>';
+
+                              str += '<div class="notification-date">' + value.timePassedMessage + '</div>';
+
+                              str += '</a>';
+
+                              str += ' </li> ';
+
+                              $("#chat-notification-list").append(str);
+
+                              chatNotificationCount++;
+
+                          });
+
+                      }
+
+                  });
+                }
+
+    function loadFollowerNotification() {
+
+                  $.ajax({
+                      type: 'get',
+                      url: "@Url.Content("~")/api/Followers/" + followerstNotificationCount,
+                      success: function (list) {
+
+                          $.each(list, function (index, value) {
+
+                              var str = ' <li class="notification-container"> ';
+                              str += '<a href="@Url.Content("~")/Profile/Index/' + value.followersName +'">';
+
+                              if (value.isSeen) {
+                                  str += ' <i class="fa fa-check-circle-o notification-seen" aria-hidden="true"></i>'
+                              }
+
+                              if (value.photoIsExist) {
+                                  str += '<img src="@Url.Content("~")/Profile/GetUserProfile/' + value.followersId + '" accept="image/*" width="30" height="30"  class="img-circle" alt="photo"> ';
+                              } else {
+                                  str += ' <img src="@Url.Content("~")/images/default-image.svg" accept="image/*" width="30" height="30" class="img-circle"  alt="photo">  ';
+                              }
+
+                              str += '<span > <b>' + value.followersName + '</b>  followed you. </div> ';
+
+                              str += '<div class="notification-title"> Click here to view ' + value.followersName +' profile </div>';
+
+                              str += '<div style="padding-left:31px;padding-right:31px;">' + value.timePassedMessage + '</div>';
+
+                              str += '</a>';
+
+                              str += ' </li> ';
+
+                              $("#followers-notification-list").append(str);
+
+                              followerstNotificationCount++;
+
+                          });
+
+                      }
+
+                  });
+        }
+
+
+     function loadNotification() {
+
+                  $.ajax({
+                      type: 'get',
+                      url: "@Url.Content("~")/api/Notifications/0/" + NotificationCount,
+                      success: function (list) {
+
+                          $.each(list, function (index, value) {
+
+                              var str = ' <li class="notification-container"> ';
+
+                              str += '<a href="@Url.Content("~")/comments/Comment/' + value.commentId + '/' + value.groupId+ '/' + value.commentGroupType + '">';
+
+                              if (value.isSeen) {
+                                  str += ' <i class="fa fa-check-circle-o notification-seen" aria-hidden="true"></i>'
+                              }
+
+                              if (value.photoIsExist) {
+                                  str += '<img src="@Url.Content("~")/Profile/GetUserProfile/' + value.from + '" accept="image/*" width="30" height="30"  class="img-circle" alt="photo"> ';
+                              } else {
+                                  str += ' <img src="@Url.Content("~")/images/default-image.svg" accept="image/*" width="30" height="30" class="img-circle"  alt="photo">  ';
+                              }
+                              str += ' <b>' + value.fromName + '</b> <div class="notification-title">' + value.title +'</div> ';
+
+
+                              str += '<div class="notification-content">' + escapeHtml(value.content) + '</div>';
+
+                              str += '<div class="notification-date">' + value.timePassedMessage + '</div>';
+
+                              str += '</a>';
+
+                              str += ' </li> ';
+
+                              $("#general-notification-list").append(str);
+
+                              NotificationCount++;
+
+                          });
+
+                      }
+
+                  });
+        }
+
+
+
+    function loadGroupChatSeesionList() {
+                 $.ajax({
+                  type: 'get',
+                          url: '@Url.Content("~")/api/Groups/groupChat/' + groupChatCount,
+                     success: function (list) {
+
+                         $.each(list, function (index, value) {
+                             var str = '<li>';
+                             str += '<a href=\'javascript:register_popup("' + value.id + '", "' + value.name + '","@Url.Content("~")","@currentUserId","4"); \'>';
+                             if (value.photoIsExist) {
+
+                                 str += '<img src="@Url.Content("~")/Groups/ViewImage/' + value.id + '" accept="image/*" width="20" height="20" class="img-circle"  alt="photo"> ' + value.name;
+                             } else {
+                                 str += ' <img src="@Url.Content("~")/images/default-image.svg" accept="image/*" width="20" height="20" class="img-circle"  alt="photo">  ' + value.name;
+                             }
+                             str += '</a>';
+
+                             str += '</li>';
+
+                             $("#group-list-items").append(str);
+
+                             groupChatCount++;
+                         });
+
+                         if (!groupChatLoadMoreIsActive && groupChatCount>=7) {
+                             $("#group-list").append('<button onclick = "javascript:loadGroupChatSeesionList()" class="btn btn-default btn-block btn-sm btn-transparent" style="color:#0198dd;border-radius:3px!important"> Load More  </button> ');
+                             groupChatLoadMoreIsActive = true;
+                         }
+                     }
+              });
+    }
+
+    function loadFriendsChatSeesionList() {
+              $.ajax({
+                  type: 'get',
+                  url: '@Url.Content("~")/api/Profile/Friends/' + friendsChatCount,
+                  success: function (list) {
+
+                      $.each(list, function (index, value) {
+                          var str = '<li>';
+                          str += '<a href=\'javascript:register_popup("' + value.groupId + '", "' + value.name + '","@Url.Content("~")","@currentUserId","5"); \'>';
+                           if (value.photoIsExist) {
+                               str += '<img src="@Url.Content("~")/Profile/GetUserProfile/' + value.id + '" accept="image/*" width="30" height="30"  class="img-circle" alt="photo"> ' + value.name;
+                              } else {
+                               str += ' <img src="@Url.Content("~")/images/default-image.svg" accept="image/*" width="30" height="30" class="img-circle"  alt="photo">  ' + value.name;
+                              }
+                          str += '</a>';
+
+
+                          if (value.isActive) {
+                              str += ' <span class="active-status"></span>';
+                          } else {
+                              str += ' <span class="inactive-status"></span>';
+                          }
+                          str += '</li>';
+
+                          $("#friends-list-items").append(str);
+                          friendsChatCount++;
+                      });
+
+                      if (!friendChatLoadMoreIsActive && friendsChatCount >= 7) {
+                          $("#friends-list").append('<button  onclick = "javascript:loadFriendsChatSeesionList()" class="btn btn-default btn-sm btn-block  btn-transparent" style="color:#0198dd;border-radius:3px!important"> Load More  </button> ');
+                          friendChatLoadMoreIsActive = true;
+                      }
+                  }
+              });
+    }
+
+    function refreshGroupChatItems() {
+        groupChatCount = 0;
+        loadGroupChatSeesionList();
+
+    }
+
+    function refreshFriendsChatItems() {
+        friendsChatCount = 0;
+        loadFriendsChatSeesionList();
+
+    }
+
+    //when user click on chat-notifications-link, refresh the list menue with notifications
+    function refreshChatItems() {
+        chatNotificationCount = 0; // reset the notification counter to zero
+        $("#chat-notification-list").empty();//clear the list
+        loadChatNotification();// load the top (ex: top 10) notification list
+
+    }
+
+    function refreshFollowers() {
+        followerstNotificationCount = 0; // reset the notification counter to zero
+        $("#followers-notification-list").empty();//clear the list
+        loadFollowerNotification();// load the top (ex: top 10) notification list
+
+    }
+
+
+    function refreshNotificationItems() {
+        NotificationCount = 0; // reset the notification counter to zero
+        $("#general-notification-list").empty();//clear the list
+        loadNotification();// load the top (ex: top 10) notification list
+    }
+
+        function notifyMewithGeneralNotification(id, groupId, type, title, msg, creator, isPhoto) {
+            try {
+        //prepare content
+        var notifyMeContent = "";
+
+        if (!isPhoto) {
+            notifyMeContent = msg;
+        } else {
+            notifyMeContent = " add an attachment ";
+        }
+
+        var icon = "";
+        if (creator!='') {
+            icon = '@Url.Content("~")/Profile/GetUserProfile/' + creator + ' ';
+            } else {
+            icon= '@Url.Content("~")/images/default-image.svg ' ;
+        }
+
+        if (!Notification) {
+            alert('Desktop notifications not available in your browser. Try Chromium.');
+            return;
+        }
+
+        if (Notification.permission !== "granted")
+            Notification.requestPermission();
+        else {
+            var notification = new Notification(title, {
+                icon: icon,
+                body: notifyMeContent,
+            });
+
+            notification.onclick = function () {
+                window.open("@Url.Content("~")/comments/Comment/" + id + "/" + groupId + "/" + type);
+            };
+                }
+            } catch (e) { }
+    }
+
+        function notifyMe(groupName, title, msg, groupId, creator, isPhoto, type) {
+            try {
+        //prepare content
+        var notifyMeContent = "";
+
+        if (!isPhoto) {
+            notifyMeContent = msg;
+        } else {
+            notifyMeContent = " sent an attachment ";
+        }
+
+        var icon = "";
+        if (creator!='') {
+            icon = '@Url.Content("~")/Profile/GetUserProfile/' + creator + ' ';
+            } else {
+            icon= '@Url.Content("~")/images/default-image.svg ' ;
+        }
+
+        if (!Notification) {
+            alert('Desktop notifications not available in your browser. Try Chromium.');
+            return;
+        }
+
+
+
+        if (Notification.permission !== "granted")
+            Notification.requestPermission();
+        else {
+            var notification = new Notification(title, {
+                icon: icon,
+                body: notifyMeContent,
+            });
+
+            notification.onclick = function () {
+                register_popup(groupId, groupName, "@Url.Content("~")", "@currentUserId", type);
+            };
+                }
+            } catch (e) { }
+    }
+
+    $(document).ready(function () {
+        // request permission on page load
+        document.addEventListener('DOMContentLoaded', function () {
+            if (Notification.permission !== "granted")
+                Notification.requestPermission();
+        });
+
+
+        $("#btnMainSearch").click(function () {
+
+            $.post("@Url.Content("~")/Comments/FindCommentsByContent", {"contain": "mmm"});
+
+        });
+
+        if ($("#friends-list") != undefined) {
+            refreshFriendsChatItems();
+        }
+
+          if ($("#group-list") != undefined) {
+              refreshGroupChatItems();
+        }
+
+          if ($("#sideGroupMain") != undefined) {
+              $.ajax({
+                type: 'get',
+                url: '@Url.Content("~")/Groups/TopGroups',
+                success: function (list) {
+
+                    $.each(list, function (index, value) {
+
+                        var str = "";
+
+                        str += '<a href="@Url.Content("~")/Groups/Details/' + value.id + '" >';
+
+                          if (value.photoIsExist) {
+
+                              str += '  <img src="@Url.Content("~")/Groups/ViewImage/' + value.id + '" accept="image/*" class="img-circle"  width="20" height="20"  alt="photo"> ' + value.name ;
+                                } else {
+                              str += '  <img src="@Url.Content("~")/images/default-image.svg" accept="image/*" width="20" class="img-circle" height="20"  alt="photo">  ' + value.name;
+                        }
+
+                        //str += '<span class="counter">1</span>';
+                       str+= '</a>';
+
+                        $("#sideGroupMain").append(str);
+
+                    });
+
+                }
+              });
+          }
+
+        if ($("#followers-notification-list") != undefined) {
+
+              $.ajax({
+                  type: 'get',
+                  url: '@Url.Content("~")/api/Followers/followersNo',
+                  success: function (num) {
+                      $(".follower-notification-num").text(num);
+                  }
+              });
+        }
+
+      $('#followers-notification-list').on('scroll', function () {
+            if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight-100) {
+                loadFollowerNotification();
+            }
+        });
+
+        if ($("#general-notification-list") != undefined) {
+
+              $.ajax({
+                  type: 'get',
+                  url: '@Url.Content("~")/api/Notifications/notificationsNo/0',
+                  success: function (num) {
+                      $(".notification-num").text(num);
+                  }
+              });
+        }
+
+          if ($("#chat-notification-list") != undefined) {
+
+              $.ajax({
+                  type: 'get',
+                  url: '@Url.Content("~")/api/Notifications/notificationsNo/1',
+                  success: function (num) {
+                      $(".chat-notification-num").text(num);
+                  }
+              });
+        }
+
+        $('#general-notification-list').on('scroll', function () {
+            if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight - 100) {
+                loadNotification();
+            }
+        });
+
+        $('#chat-notification-list').on('scroll', function () {
+            if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight - 100) {
+                loadChatNotification();
+            }
+        });
+
+    });
+
+    </script>
+}

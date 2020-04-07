@@ -1,0 +1,229 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <UserSecretsId>aspnet-Link-8AAF15AE-929B-4F25-9A55-4B2C9679DBF7</UserSecretsId>
+    <ApplicationIcon></ApplicationIcon>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Version>2.0.0</Version>
+    <OutputType>Exe</OutputType>
+    <StartupObject />
+    <Win32Resource />
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\js\adapter.min.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\js\adapter.min.js" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.9" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.1.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.2.1" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.4" PrivateAssets="All" />
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.0.9.2" />
+    <PackageReference Include="Wangkanai.Detection" Version="2.0.0-beta9" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.3" />
+    <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.2" />
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="wwwroot\lib\datatable\" />
+    <Folder Include="wwwroot\lib\NewFolder\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Areas\Admin\Views\Group\Index.cshtml" />
+    <None Include="Areas\Admin\Views\Home\Index.cshtml" />
+    <None Include="Areas\Admin\Views\Post\Index.cshtml" />
+    <None Include="Areas\Admin\Views\Shared\_AdminIncludesCss.cshtml" />
+    <None Include="Areas\Admin\Views\Shared\_AdminIncludesJs.cshtml" />
+    <None Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
+    <None Include="Areas\Admin\Views\UserLogIn\Index.cshtml" />
+    <None Include="Areas\Admin\Views\UserProfiles\Index.cshtml" />
+    <None Include="Areas\Admin\Views\_ViewImports.cshtml" />
+    <None Include="Areas\Admin\Views\_ViewStart.cshtml" />
+    <None Include="Views\Account\AccessDenied.cshtml" />
+    <None Include="Views\Account\ConfirmEmail.cshtml" />
+    <None Include="Views\Account\ExternalLogin.cshtml" />
+    <None Include="Views\Account\ForgotPassword.cshtml" />
+    <None Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
+    <None Include="Views\Account\Lockout.cshtml" />
+    <None Include="Views\Account\Login.cshtml" />
+    <None Include="Views\Account\LoginWith2fa.cshtml" />
+    <None Include="Views\Account\LoginWithRecoveryCode.cshtml" />
+    <None Include="Views\Account\Register.cshtml" />
+    <None Include="Views\Account\ResetPassword.cshtml" />
+    <None Include="Views\Account\ResetPasswordConfirmation.cshtml" />
+    <None Include="Views\Account\SignedOut.cshtml" />
+    <None Include="Views\Comments\Comment.cshtml" />
+    <None Include="Views\Comments\FindComments.cshtml" />
+    <None Include="Views\Comments\Hashtag.cshtml" />
+    <None Include="Views\Groups\Create.cshtml" />
+    <None Include="Views\Groups\Details.cshtml" />
+    <None Include="Views\Groups\Edit.cshtml" />
+    <None Include="Views\Groups\Groups.cshtml" />
+    <None Include="Views\Groups\Index.cshtml" />
+    <None Include="Views\Home\Index.cshtml" />
+    <None Include="Views\Manage\ChangePassword.cshtml" />
+    <None Include="Views\Manage\Disable2fa.cshtml" />
+    <None Include="Views\Manage\EnableAuthenticator.cshtml" />
+    <None Include="Views\Manage\ExternalLogins.cshtml" />
+    <None Include="Views\Manage\GenerateRecoveryCodes.cshtml" />
+    <None Include="Views\Manage\Index.cshtml" />
+    <None Include="Views\Manage\ResetAuthenticator.cshtml" />
+    <None Include="Views\Manage\SetPassword.cshtml" />
+    <None Include="Views\Manage\ShowRecoveryCodes.cshtml" />
+    <None Include="Views\Manage\TwoFactorAuthentication.cshtml" />
+    <None Include="Views\Manage\_Layout.cshtml" />
+    <None Include="Views\Manage\_ManageNav.cshtml" />
+    <None Include="Views\Manage\_StatusMessage.cshtml" />
+    <None Include="Views\Manage\_ViewImports.cshtml" />
+    <None Include="Views\People\Index.cshtml" />
+    <None Include="Views\Profile\Friends.cshtml" />
+    <None Include="Views\Profile\Frinds.cshtml" />
+    <None Include="Views\Profile\Index.cshtml" />
+    <None Include="Views\Shared\Error.cshtml" />
+    <None Include="Views\Shared\_IncludesCss.cshtml" />
+    <None Include="Views\Shared\_IncludesJs.cshtml" />
+    <None Include="Views\Shared\_Layout.cshtml" />
+    <None Include="Views\Shared\_LeftSideMenue.cshtml" />
+    <None Include="Views\Shared\_LoginPartial.cshtml" />
+    <None Include="Views\Shared\_NavbarHeader.cshtml" />
+    <None Include="Views\Shared\_PrimaryLayout.cshtml" />
+    <None Include="Views\Shared\_RightSideMenue.cshtml" />
+    <None Include="Views\Shared\_SubLayout.cshtml" />
+    <None Include="Views\Shared\_ValidationScriptsPartial.cshtml" />
+    <None Include="Views\_ViewImports.cshtml" />
+    <None Include="Views\_ViewStart.cshtml" />
+    <None Include="wwwroot\images\banner1.svg" />
+    <None Include="wwwroot\images\banner2.svg" />
+    <None Include="wwwroot\images\banner3.svg" />
+    <None Include="wwwroot\images\banner4.svg" />
+    <None Include="wwwroot\images\default-image.svg" />
+    <None Include="wwwroot\images\market-ad.svg" />
+    <None Include="wwwroot\images\user-friends-solid.svg" />
+    <None Include="wwwroot\images\user-group.svg" />
+    <None Include="wwwroot\images\web-page.svg" />
+    <None Include="wwwroot\js\adapter.min.js" />
+    <None Include="wwwroot\js\chatbox-popup.js" />
+    <None Include="wwwroot\js\chatbox-popup.min.js" />
+    <None Include="wwwroot\js\custom.js" />
+    <None Include="wwwroot\js\custom.min.js" />
+    <None Include="wwwroot\js\jquery-comments-chat.js" />
+    <None Include="wwwroot\js\jquery-comments-chat.min.js" />
+    <None Include="wwwroot\js\jquery-comments.js" />
+    <None Include="wwwroot\js\jquery-comments.min.js" />
+    <None Include="wwwroot\js\multiple-emails.js" />
+    <None Include="wwwroot\js\multiple-emails.min.js" />
+    <None Include="wwwroot\js\site.js" />
+    <None Include="wwwroot\js\site.min.js" />
+    <None Include="wwwroot\lib\bootbox.js\bootbox.js" />
+    <None Include="wwwroot\lib\bootbox.js\bootbox.min.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-theme.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-theme.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\fonts\glyphicons-halflings-regular.svg" />
+    <None Include="wwwroot\lib\bootstrap\dist\fonts\glyphicons-halflings-regular.woff2" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\npm.js" />
+    <None Include="wwwroot\lib\bootstrap\LICENSE" />
+    <None Include="wwwroot\lib\Chart.js\Chart.min.js" />
+    <None Include="wwwroot\lib\datatables\js\dataTables.bootstrap.js" />
+    <None Include="wwwroot\lib\datatables\js\dataTables.bootstrap.min.js" />
+    <None Include="wwwroot\lib\datatables\js\dataTables.bootstrap4.js" />
+    <None Include="wwwroot\lib\datatables\js\dataTables.bootstrap4.min.js" />
+    <None Include="wwwroot\lib\datatables\js\dataTables.dataTables.js" />
+    <None Include="wwwroot\lib\datatables\js\dataTables.dataTables.min.js" />
+    <None Include="wwwroot\lib\datatables\js\dataTables.foundation.js" />
+    <None Include="wwwroot\lib\datatables\js\dataTables.foundation.min.js" />
+    <None Include="wwwroot\lib\datatables\js\dataTables.jqueryui.js" />
+    <None Include="wwwroot\lib\datatables\js\dataTables.jqueryui.min.js" />
+    <None Include="wwwroot\lib\datatables\js\dataTables.material.js" />
+    <None Include="wwwroot\lib\datatables\js\dataTables.material.min.js" />
+    <None Include="wwwroot\lib\datatables\js\dataTables.semanticui.js" />
+    <None Include="wwwroot\lib\datatables\js\dataTables.semanticui.min.js" />
+    <None Include="wwwroot\lib\datatables\js\dataTables.uikit.js" />
+    <None Include="wwwroot\lib\datatables\js\dataTables.uikit.min.js" />
+    <None Include="wwwroot\lib\datatables\js\jquery.dataTables.js" />
+    <None Include="wwwroot\lib\datatables\js\jquery.dataTables.min.js" />
+    <None Include="wwwroot\lib\emoji-picker\css\emoji.css.map" />
+    <None Include="wwwroot\lib\emoji-picker\css\emoji.min.css.map" />
+    <None Include="wwwroot\lib\emoji-picker\js\config.js" />
+    <None Include="wwwroot\lib\emoji-picker\js\config.min.js" />
+    <None Include="wwwroot\lib\emoji-picker\js\config.min.js.map" />
+    <None Include="wwwroot\lib\emoji-picker\js\emoji-picker.js" />
+    <None Include="wwwroot\lib\emoji-picker\js\emoji-picker.js.map" />
+    <None Include="wwwroot\lib\emoji-picker\js\emoji-picker.min.js" />
+    <None Include="wwwroot\lib\emoji-picker\js\emoji-picker.min.js.map" />
+    <None Include="wwwroot\lib\emoji-picker\js\jquery.emojiarea.js" />
+    <None Include="wwwroot\lib\emoji-picker\js\jquery.emojiarea.min.js" />
+    <None Include="wwwroot\lib\emoji-picker\js\jquery.emojiarea.min.js.map" />
+    <None Include="wwwroot\lib\emoji-picker\js\util.js" />
+    <None Include="wwwroot\lib\emoji-picker\js\util.min.js" />
+    <None Include="wwwroot\lib\emoji-picker\js\util.min.js.map" />
+    <None Include="wwwroot\lib\font-awesome\css\font-awesome.css.map" />
+    <None Include="wwwroot\lib\font-awesome\fonts\fontawesome-webfont.svg" />
+    <None Include="wwwroot\lib\font-awesome\fonts\fontawesome-webfont.woff2" />
+    <None Include="wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.js" />
+    <None Include="wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.min.js" />
+    <None Include="wwwroot\lib\jquery-validation\dist\additional-methods.js" />
+    <None Include="wwwroot\lib\jquery-validation\dist\additional-methods.min.js" />
+    <None Include="wwwroot\lib\jquery-validation\dist\jquery.validate.js" />
+    <None Include="wwwroot\lib\jquery-validation\dist\jquery.validate.min.js" />
+    <None Include="wwwroot\lib\jquery-validation\LICENSE.md" />
+    <None Include="wwwroot\lib\jquery.textcomplete\jquery.textcomplete.js" />
+    <None Include="wwwroot\lib\jquery.textcomplete\jquery.textcomplete.min.js" />
+    <None Include="wwwroot\lib\jquery.textcomplete\jquery.textcomplete.min.map" />
+    <None Include="wwwroot\lib\jquery\dist\jquery.js" />
+    <None Include="wwwroot\lib\jquery\dist\jquery.min.js" />
+    <None Include="wwwroot\lib\jquery\dist\jquery.min.map" />
+    <None Include="wwwroot\lib\Readmore.js\readmore.js" />
+    <None Include="wwwroot\lib\Readmore.js\readmore.min.js" />
+    <None Include="wwwroot\lib\signalr\dist\browser\signalr.js" />
+    <None Include="wwwroot\lib\signalr\dist\browser\signalr.min.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Areas\Admin\Views\Shared\_AdminIncludesCss.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\Admin\Views\Shared\_AdminIncludesJs.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\Admin\Views\Shared\_Layout.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\Admin\Views\_ViewImports.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\Admin\Views\_ViewStart.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Comments\FindComments.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Comments\Comment.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Shared\_IncludesJs.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Shared\_IncludesCss.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+  </ItemGroup>
+
+</Project>

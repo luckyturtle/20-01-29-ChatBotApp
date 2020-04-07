@@ -1,0 +1,570 @@
+﻿@***********************************************************************************************************************
+    * Link  is a Social Network for enable distributed user to involve, collaborate and communicate .
+    * Copyright(C) 2019 Indie Sudio. All rights reserved.
+    * https://indiestd.com/
+    * info@indiestd.com
+    *********************************************************************************************************************@
+
+@model Link.Models.GroupViewModels.GroupViewModel
+@using Link.Models.CommentModels;
+@inject UserManager<ApplicationUser> UserManager
+@{
+    var currentUserId = @UserManager.GetUserId(User);
+
+    ViewData["Title"] = "Details";
+}
+<style type="text/css">
+    .group-detail {
+        background: #fff;
+        padding-top: 10px;
+    }
+
+    .group-basic-info {
+        padding-top: 0px;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .badge {
+        display: inline-block;
+        min-width: 10px;
+        padding: 3px 7px;
+        font-size: 12px;
+        color: #000000;
+        vertical-align: middle;
+        text-align: center;
+        background-color: #eeeeee;
+        border-radius: 10px;
+    }
+
+    .body-content {
+        padding-top: 0px;
+        margin-top: 0px;
+        width: 100%;
+    }
+
+    .img-group-thumbnail {
+        margin-top: 20px;
+        width: 200px;
+        height: 200px;
+        border: 10px solid rgba(255,255,255,0.3);
+    }
+
+    .img-follower-group-thumbnail {
+        margin-top: 20px;
+        width: 200px;
+        height: 200px;
+        border: 10px solid #d2d2d2;
+    }
+
+    .group-container-cover {
+        background: #008cba;
+        margin-top: 45px;
+        color: #fff;
+        padding-bottom: 10px;
+        margin-right: -15px !important;
+        margin-left: -15px !important;
+    }
+
+    .row {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+
+    .group-header-footer {
+        width: 100%;
+        background-color: white;
+        font-size: 12px;
+        color: #ADADAD;
+        height: 35px;
+    }
+
+    .group-follower-box-part {
+        padding: 5px;
+    }
+</style>
+
+<div class="row text-center group-container-cover">
+    <a href="#">
+        @if (Model.PhotoIsExist)
+        {
+            <img width="200" src="@Url.Content("~")/Groups/ViewImage/@Model.Id" accept="image/*" class="avatar img-circle  img-group-thumbnail" alt="avatar">
+        }
+        else
+        {
+            <img width="200" src="~/images/avatar.png" accept="image/*" class="avatar img-circle img-group-thumbnail" alt="avatar">
+        }
+    </a>
+
+    <div class="row group-basic-info">
+        <h1 class="group-name">@Html.DisplayFor(model => model.Name)</h1>
+        <div class="description">@Html.DisplayFor(model => model.Description)</div>
+    </div>
+
+    <div class="row">
+        <p></p>
+        <span class="" data-toggle="buttons" id="follow">
+            @if (!Model.IsAdmin)
+            {
+                @if (Model.IsCurrentUserFollowGroup)
+                {
+                    <label class="btn btn-default btn-transparent">
+                        <input type="radio" name="options" id="option1" autocomplete="off">
+                        <i class="fa fa-minus-circle"></i> Unfollow
+                    </label>
+
+                    <label class="btn btn-default active btn-transparent">
+                        <input type="radio" name="options" id="option2" autocomplete="off" checked>
+                        <i class="fa fa-plus-circle"></i> Follow
+                    </label>
+                }
+                else
+                {
+                    <label class="btn btn-default active btn-transparent">
+                        <input type="radio" name="options" id="option1" autocomplete="off" checked>
+                        <i class="fa fa-minus-circle"></i> Unfollow
+                    </label>
+
+                    <label class="btn btn-default btn-transparent">
+                        <input type="radio" name="options" id="option2" autocomplete="off">
+                        <i class="fa fa-plus-circle"></i> Follow
+                    </label>
+                }
+            }
+        </span>
+        <span>
+            <button class="btn btn-default btn-transparent"
+                    onclick='javascript:register_popup("@Model.Id","@Model.Name","@Url.Content("~")","@currentUserId","4")'>
+                <i class="fa fa-commenting" aria-hidden="true"></i>
+            </button>
+        </span>
+    </div>
+    <p></p>
+    <div class="row">
+        <span class=" badge badge-warning numberOfViewer">@Model.NumberOfViewer viewers</span>
+        <span class=" badge badge-info numberOfFollwer">@Model.NumberOfMember followers</span>
+    </div>
+</div>
+
+
+<div class="container" style="margin-top:2px;">
+
+    <div class="row">
+
+        <div class="col-md-4">
+
+            <p></p>
+            <div class="panel panel-white panel-friends">
+
+                <div class="panel-heading">
+                    <h3 class="panel-title"> Send Request to Email List </h3>
+                </div>
+                <div class="panel-body text-center">
+                    <div class="input-group">
+                        <input type="email" class="form-control" id="rUserEmail" placeholder=" type the email list ">
+                        <span class="input-group-btn">
+                            <button id="sendRequest" class="btn btn-default">
+                                <i class="fa fa-send"></i> Send
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a></li>
+                <li role="presentation"><a href="#member" aria-controls="member" role="tab" data-toggle="tab">Followers</a></li>
+                <li role="presentation"><a href="#manage" aria-controls="member" role="tab" data-toggle="tab">Info</a></li>
+            </ul>
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="home">
+                    <div class="col-md-12 group-profile-post">
+                        <div class="row">
+                            <p></p>
+                            <div id="group-comments-container"></div>
+                        </div>
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane " id="member">
+                    <div class="col-md-12 group-user-list">
+                        <p></p>
+                        <div class="row userMain">
+                        </div>
+                    </div>
+                </div>
+
+                <div role="tabpanel" class="tab-pane " id="manage">
+                    <div class="col-md-12 ">
+                        <div class="row group-detail">
+
+                            <div class="col-md-12  ">
+                                <h4> Group Info</h4>
+                                <hr />
+                                <div class="form-group">
+                                    <label asp-for="Name"></label>:
+                                    @Html.DisplayFor(model => model.Name)
+                                </div>
+
+                                <div class="form-group">
+                                    <label asp-for="GroupTypeId"></label>:
+
+                                    @if (Model.GroupTypeId == 1)
+                                    {
+                                        <span> Public </span>
+                                    }
+                                    else
+                                    {
+                                        <span>Private </span>
+                                    }
+
+                                </div>
+
+                                <div class="form-group">
+                                    <label asp-for="Description"></label>:
+                                    @Html.DisplayFor(model => model.Description)
+                                </div>
+
+                                @if (Model.IsAdmin)
+                                {
+                                    <hr />
+                                    <div class="form-group">
+                                        <a asp-action="Edit" asp-route-id="@Model.Id">Edit Group Info</a>
+
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-md-2">
+
+        </div>
+
+    </div>
+
+
+
+
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+
+    <script type="text/javascript">
+         function manageUserRole(userId) {
+                $.ajax({
+                    type: 'put',
+                    url: '@Url.Content("~")/Groups/ChangeAdministrationPermisstion/@Model.Id?userId=' + userId,
+                    success: function (val) {
+
+                    },
+                    error: function () {
+
+                    },
+                });
+        }
+
+        $(document).ready(function () {
+
+             var pageCount = 0;
+
+            function loadMoreFollowers() {
+                  $.ajax({
+                        type: 'get',
+                        url: '@Url.Content("~")/Groups/LoadMoreGroupFollower/@Model.Id?take=' + pageCount,
+                        success: function (list) {
+
+                            $.each(list, function (index, value) {
+
+                                var str = "";
+                                str += '  <div class="col-md-4 col-sm-4">';
+                                str += '<div class="userBlock">';
+                                str += '  <div class="backgrounImg">';
+                                str += '<img src="@Url.Content("~")/images/background1.jpg">';
+                                str += '</div>';
+
+                                str += '<div class="userImg">';
+                                if (value.avatarIsExist) {
+
+                                    str += '  <img src="@Url.Content("~")/Profile/GetUserProfile/' + value.memberId +'" accept="image/*" width="150" height="150" class="group-photo img-circle img-follower-group-thumbnail" alt="photo"> ';
+                                }
+                                else {
+
+                                    str += '  <img src="@Url.Content("~")/images/avatar.png" accept="image/*" width="150" height="150" class="group-photo img-circle img-follower-group-thumbnail" alt="photo"> ';
+                                }
+                                str += '</div>';
+
+                                str += '<div class="userDescription">';
+                                str += '<h5>';
+                                str += '<a href="@Url.Content("~")/Profile/' + value.memberName + '">' + value.memberName+'</a>';
+                                str += '</h5>';
+                                str + '</div>';
+
+
+                                if ('@Model.IsAdmin' == 'True') {
+
+                                    str += ' <span class="" data-toggle="buttons" id="setAsAdmin"  onclick="manageUserRole(\'' + value.memberId +'\'); return false" >';
+                                    if (value.isAdmin) {
+
+                                     str += '<label class="btn btn-danger"> '+
+                                            '<input type = "radio" name = "options"  autocomplete = "off" >' +
+                                            '<i class="fa fa-minus-circle" ></i > Cancel Admin</label > ' +
+                                            '<label class="btn btn-info active" > ' +
+                                            ' <input type="radio" name="options"  autocomplete="off" checked >' +
+                                           ' <i class="fa fa-plus-circle"></i> Set As Admin</label> ';
+                                    }
+                                    else {
+                                     str += '<label class="btn btn-danger active"> ' +
+                                            '<input type = "radio" name = "options"   autocomplete = "off" checked>' +
+                                            '<i class="fa fa-minus-circle" ></i > Cancel Admin</label > ' +
+                                            '<label class="btn btn-info " > ' +
+                                            ' <input type="radio" name="options"  autocomplete="off" >' +
+                                            ' <i class="fa fa-plus-circle"></i> Set As Admin</label> ';
+
+                                    }
+                                    str +='</span>';
+                                }
+
+
+                                     str += ' </div>';
+
+
+                                $(".userMain").append(str);
+
+                                     pageCount ++;
+
+                                 });
+
+                        },
+                        async: false
+                    });
+            };
+
+
+            loadMoreFollowers();
+
+            $(window).scroll(function () {
+              if ($(window).scrollTop() + $(window).height() > $(document).height() - 100) {
+
+                  loadMoreFollowers();
+
+              }
+            });
+
+
+            $("#follow").click(function () {
+                 $.ajax({
+                type: 'put',
+                url: '@Url.Content("~")/Groups/Follow/' + '@Model.Id',
+                success: function (val) {
+                    $(".numberOfFollwer").text(val +" followers")
+                },
+                 error: function () {
+                },
+              });
+            });
+
+            $.ajax({
+                type: 'put',
+                url: '@Url.Content("~")/Groups/Viewer/' + '@Model.Id',
+                success: function (val) {
+                    $(".numberOfViewer").text(val + " viewers")
+                },
+                error: function () {
+
+                },
+            });
+
+            $('#group-comments-container').comments({
+                rootUrl:'@Url.Content("~")',
+                textareaPlaceholderText: 'Leave a comment',
+                maxRepliesVisible:1,
+                enableHashtags: true,
+                enablePinging: true,
+                 roundProfilePictures: true,
+                 enableCommentingField: true,
+                 creator:'@ViewData["UserId"]',
+                commentContainer:".group-comments-container",
+                 filePath: '@Url.Content("~")/Comments/DownloadAttachment/',
+                 commentProfilePicturePath: '@Url.Content("~")/Profile/GetUserProfile/',
+                fieldMappings: {
+                    id: 'id',
+                    parent: 'parent',
+                    created: 'created',
+                    modified: 'modified',
+                    content: 'content',
+                    file: 'file',
+                    fileURL: 'fileURL',
+                    fileMimeType: 'fileMimeType',
+                    pings: 'pings',
+                    creator: 'creator',
+                    fullname: 'fullname',
+                    profileURL: 'profileURL',
+                    profilePictureURL: 'profilePictureURL',
+                    isNew: 'isNew',
+                    createdByAdmin: 'createdByAdmin',
+                    createdByCurrentUser: 'createdByCurrentUser',
+                    upvoteCount: 'upvoteCount',
+                    userHasUpvoted: 'userHasUpvoted'
+                }, refresh: function () {
+                    $('#group-comments-container').addClass('rendered');
+                }, getUsers: function (success, error) {
+                    $.ajax({
+                        type: 'get',
+                        url: '@Url.Content("~")/api/users/',
+                        success: function (userArray) {
+                            success(userArray)
+                        },
+                        error: error
+                    });
+                 },
+                 hashtagClicked: function (hashtag) {
+
+                     var win = window.open('@Url.Content("~")/Comments/Hashtag/' + hashtag, '_blank');
+                     win.focus();
+
+                 }, loadMoreComments: function (comment) {
+
+                      $.ajax({
+                        type: 'get',
+                          url: '@Url.Content("~")/api/comments/@Model.Id/@CommentGroupType.Group/' + comment.options.commentCount,
+                          success: function (commentsArray) {
+                              comment.prepareLader(commentsArray);
+                          },
+                          async: false
+                    });
+                 },
+                 getComments: function (success, error) {
+                    $.ajax({
+                        type: 'get',
+                        url: '@Url.Content("~")/api/comments/@Model.Id/@CommentGroupType.Group/0',
+                        success: function (commentsArray) {
+                            success(commentsArray)
+                        },
+                        error: error,
+                        async: false
+                    });
+                }, postComment: function (commentJSON, success, error) {
+                    commentJSON.groupId = '@Model.Id';
+                    commentJSON.commentGroupTypeId = '@CommentGroupType.Group';
+                    $.ajax({
+                        type: 'post',
+                        url: '@Url.Content("~")/api/comments/',
+                        data: commentJSON,
+                        success: function (comment) {
+                            success(comment)
+                        },
+                        error: error
+                    });
+                }, putComment: function (commentJSON, success, error) {
+                    commentJSON.groupId = '@Model.Id';
+                    commentJSON.commentGroupTypeId = '@CommentGroupType.Group';
+                    $.ajax({
+                        type: 'put',
+                        url: '@Url.Content("~")/api/comments/' + commentJSON.id,
+                        data: commentJSON,
+                        success: function (comment) {
+                            success(comment)
+                        },
+                        error: error
+                     });
+
+                }, deleteComment: function (commentJSON, success, error) {
+                    $.ajax({
+                        type: 'delete',
+                        url: '@Url.Content("~")/api/comments/' + commentJSON.id,
+                        success: success,
+                        error: error
+                    });
+                }, upvoteComment: function (commentJSON, success, error) {
+                    var commentURL = '@Url.Content("~")/api/comments/' + commentJSON.id;
+                    var upvotesURL = commentURL + '/upvotes/';
+                    var value = (commentJSON.userHasUpvoted == true) ? 1 : 0;
+
+                    $.ajax({
+                        type: 'put',
+                        url: upvotesURL + value,
+                        success: function () {
+                            success(commentJSON)
+                        },
+                        error: error
+                    });
+                },
+                downloadAttachment: function (comment) {
+                    var win = window.open('@Url.Content("~")/Comments/DownloadAttachment/' + comment.id, '_blank');
+                    win.focus();
+                },
+                uploadAttachments: function (commentArray, success, error) {
+                    $(commentArray).each(function (index, commentJson) {
+
+                        // Create form data
+                        var formData = new FormData();
+                        $(Object.keys(commentJson)).each(function (index, key) {
+                            var value = commentJson[key];
+                            if (value) formData.append(key, value);
+                        });
+
+                        var tempCommentJson = commentJson;
+                        tempCommentJson.file = null;
+
+                        $.ajax({
+                            url: '@Url.Content("~")/api/comments/Upload/',
+                            type: 'post',
+                            data: formData,
+                            cache: false,
+                            contentType: false,
+                            processData: false,
+                            success: function (name) {
+                                tempCommentJson.fileURL = name;
+                                tempCommentJson.groupId = '@Model.Id';
+                                tempCommentJson.commentGroupTypeId = '@CommentGroupType.Group';
+                                $.ajax({
+                                    url: '@Url.Content("~")/api/comments/',
+                                    type: 'post',
+                                    data: tempCommentJson,
+                                    success: function (comment) {
+                                        success(comment)
+                                    },
+                                    error: error
+                                });
+                            },
+                            error: function (data) {
+
+                            }
+                        });
+                    });
+                },
+            });
+
+            $('.description').readmore({
+                lessLink: '<a href="#">Read less</a>'
+            });
+
+            $("#sendRequest").click(function () {
+                var userEmail = $("#rUserEmail").val();
+                 $.ajax({
+                type: 'put',
+                     url: '@Url.Content("~")/Groups/SendRequest/@Model.Id?emailStr=' + userEmail,
+                success: function (val) {
+                    bootbox.alert(" Your request has been sent successfully ");
+                    $("#rUserEmail").val("")
+                },
+                 error: function () {
+                  bootbox.alert(" Your request failed to complete. ");
+
+                },
+              });
+            });
+
+            $('#rUserEmail').multiple_emails();
+            //$('#rUserEmail').toggle("add email list");
+
+        });
+    </script>
+}

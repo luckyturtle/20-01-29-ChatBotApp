@@ -1,0 +1,16 @@
+E:\2020-development\chatclient_1_29\samples\codecanyon-23468171-link-net-core-mvc-social-network-system\Link Social Network\Link Source Code\Link\Link\bin\Debug\netcoreapp2.2\appsettings.Development.json
+E:\2020-development\chatclient_1_29\samples\codecanyon-23468171-link-net-core-mvc-social-network-system\Link Social Network\Link Source Code\Link\Link\bin\Debug\netcoreapp2.2\appsettings.json
+E:\2020-development\chatclient_1_29\samples\codecanyon-23468171-link-net-core-mvc-social-network-system\Link Social Network\Link Source Code\Link\Link\bin\Debug\netcoreapp2.2\bundleconfig.json
+E:\2020-development\chatclient_1_29\samples\codecanyon-23468171-link-net-core-mvc-social-network-system\Link Social Network\Link Source Code\Link\Link\bin\Debug\netcoreapp2.2\libman.json
+E:\2020-development\chatclient_1_29\samples\codecanyon-23468171-link-net-core-mvc-social-network-system\Link Social Network\Link Source Code\Link\Link\bin\Debug\netcoreapp2.2\Properties\launchSettings.json
+E:\2020-development\chatclient_1_29\samples\codecanyon-23468171-link-net-core-mvc-social-network-system\Link Social Network\Link Source Code\Link\Link\bin\Debug\netcoreapp2.2\Link.deps.json
+E:\2020-development\chatclient_1_29\samples\codecanyon-23468171-link-net-core-mvc-social-network-system\Link Social Network\Link Source Code\Link\Link\bin\Debug\netcoreapp2.2\Link.runtimeconfig.json
+E:\2020-development\chatclient_1_29\samples\codecanyon-23468171-link-net-core-mvc-social-network-system\Link Social Network\Link Source Code\Link\Link\bin\Debug\netcoreapp2.2\Link.runtimeconfig.dev.json
+E:\2020-development\chatclient_1_29\samples\codecanyon-23468171-link-net-core-mvc-social-network-system\Link Social Network\Link Source Code\Link\Link\bin\Debug\netcoreapp2.2\Link.dll
+E:\2020-development\chatclient_1_29\samples\codecanyon-23468171-link-net-core-mvc-social-network-system\Link Social Network\Link Source Code\Link\Link\bin\Debug\netcoreapp2.2\Link.pdb
+E:\2020-development\chatclient_1_29\samples\codecanyon-23468171-link-net-core-mvc-social-network-system\Link Social Network\Link Source Code\Link\Link\obj\Debug\netcoreapp2.2\Link.csprojAssemblyReference.cache
+E:\2020-development\chatclient_1_29\samples\codecanyon-23468171-link-net-core-mvc-social-network-system\Link Social Network\Link Source Code\Link\Link\obj\Debug\netcoreapp2.2\UserSecretsAssemblyInfo.cs
+E:\2020-development\chatclient_1_29\samples\codecanyon-23468171-link-net-core-mvc-social-network-system\Link Social Network\Link Source Code\Link\Link\obj\Debug\netcoreapp2.2\Link.AssemblyInfoInputs.cache
+E:\2020-development\chatclient_1_29\samples\codecanyon-23468171-link-net-core-mvc-social-network-system\Link Social Network\Link Source Code\Link\Link\obj\Debug\netcoreapp2.2\Link.AssemblyInfo.cs
+E:\2020-development\chatclient_1_29\samples\codecanyon-23468171-link-net-core-mvc-social-network-system\Link Social Network\Link Source Code\Link\Link\obj\Debug\netcoreapp2.2\Link.dll
+E:\2020-development\chatclient_1_29\samples\codecanyon-23468171-link-net-core-mvc-social-network-system\Link Social Network\Link Source Code\Link\Link\obj\Debug\netcoreapp2.2\Link.pdb

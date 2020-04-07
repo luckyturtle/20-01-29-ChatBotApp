@@ -1,0 +1,116 @@
+﻿// Configure bundling and minification for the project.
+// More info at https://go.microsoft.com/fwlink/?LinkId=808241
+//***********************************************************************************************************************
+//    * Link  is a Social Network for enable distributed user to involve, collaborate and communicate .
+//    * Copyright(C) 2019 Indie Sudio. All rights reserved.
+//    * https://indiestd.com/
+//    * info@indiestd.com
+//    *******************************************************************************************************************
+
+[
+  {
+    "outputFileName": "wwwroot/css/site.min.css",
+    "inputFiles": [
+      "wwwroot/css/site.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/video-voice-call.min.css",
+    "inputFiles": [
+      "wwwroot/css/video-voice-call.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/chatbox-popup.min.css",
+    // An array of relative input file paths. Globbing patterns supported
+    "inputFiles": [
+      "wwwroot/css/chatbox-popup.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/multiple-emails.min.css",
+    // An array of relative input file paths. Globbing patterns supported
+    "inputFiles": [
+      "wwwroot/css/multiple-emails.css"
+    ]
+  },
+
+  {
+    "outputFileName": "wwwroot/css/jquery-comments.min.css",
+    // An array of relative input file paths. Globbing patterns supported
+    "inputFiles": [
+      "wwwroot/css/jquery-comments.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/jquery-comments-chat.min.css",
+    // An array of relative input file paths. Globbing patterns supported
+    "inputFiles": [
+      "wwwroot/css/jquery-comments-chat.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/chatbox-popup.min.js",
+    // An array of relative input file paths. Globbing patterns supported
+    "inputFiles": [
+      "wwwroot/js/chatbox-popup.js"
+    ]
+  },
+
+  {
+    "outputFileName": "wwwroot/js/jquery-comments.min.js",
+    // An array of relative input file paths. Globbing patterns supported
+    "inputFiles": [
+      "wwwroot/js/jquery-comments.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/jquery-comments-chat.min.js",
+    // An array of relative input file paths. Globbing patterns supported
+    "inputFiles": [
+      "wwwroot/js/jquery-comments-chat.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/multiple-emails.min.js",
+    // An array of relative input file paths. Globbing patterns supported
+    "inputFiles": [
+      "wwwroot/js/multiple-emails.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/adapter.min.js",
+    // An array of relative input file paths. Globbing patterns supported
+    "inputFiles": [
+      "wwwroot/js/adapter.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/connectionManager.min.js",
+    // An array of relative input file paths. Globbing patterns supported
+    "inputFiles": [
+      "wwwroot/js/connectionManager.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/WebRctApp.min.js",
+    // An array of relative input file paths. Globbing patterns supported
+    "inputFiles": [
+      "wwwroot/js/WebRctApp.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/site.min.js",
+    "inputFiles": [
+      "wwwroot/js/site.js"
+    ],
+
+    // Optionally specify minification options
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    // Optionally generate .map file
+    "sourceMap": false
+  }
+]

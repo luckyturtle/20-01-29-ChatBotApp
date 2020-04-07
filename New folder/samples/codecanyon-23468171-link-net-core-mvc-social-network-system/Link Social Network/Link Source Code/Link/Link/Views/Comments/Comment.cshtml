@@ -1,0 +1,185 @@
+﻿@***********************************************************************************************************************
+    * Link  is a Social Network for enable distributed user to involve, collaborate and communicate .
+    * Copyright(C) 2019 Indie Sudio. All rights reserved.
+    * https://indiestd.com/
+    * info@indiestd.com
+    *********************************************************************************************************************@
+
+@{
+    ViewData["Title"] = "";
+    Layout = "_PrimaryLayout";
+}
+
+<div class="container">
+
+    <div class="feed-content scrollbar">
+        <div id="view-comment-container"></div>
+    </div>
+</div>
+
+@section Scripts {
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $('#view-comment-container').comments({
+                textareaPlaceholderText: 'Leave a comment',
+                maxRepliesVisible:7,
+                enableHashtags: true,
+                enablePinging: true,
+                 roundProfilePictures: true,
+                 enableCommentingField: false,
+                 filePath: '@Url.Content("~")/Comments/DownloadAttachment/',
+                 commentProfilePicturePath: '@Url.Content("~")/Profile/GetUserProfile/',
+                fieldMappings: {
+                    id: 'id',
+                    parent: 'parent',
+                    created: 'created',
+                    modified: 'modified',
+                    content: 'content',
+                    file: 'file',
+                    fileURL: 'fileURL',
+                    fileMimeType: 'fileMimeType',
+                    pings: 'pings',
+                    creator: 'creator',
+                    fullname: 'fullname',
+                    profileURL: 'profileURL',
+                    profilePictureURL: 'profilePictureURL',
+                    isNew: 'isNew',
+                    createdByAdmin: 'createdByAdmin',
+                    createdByCurrentUser: 'createdByCurrentUser',
+                    upvoteCount: 'upvoteCount',
+                    userHasUpvoted: 'userHasUpvoted'
+                }, refresh: function () {
+                    $('#view-comment-container').addClass('rendered');
+                }, getUsers: function (success, error) {
+                    $.ajax({
+                        type: 'get',
+                        url: '@Url.Content("~")/api/users/',
+                        success: function (userArray) {
+                            success(userArray)
+                        },
+                        error: error
+                    });
+                 },
+                 hashtagClicked: function (hashtag) {
+                     var win = window.open('@Url.Content("~")/Comments/Hashtag/' + hashtag, '_blank');
+                     win.focus();
+                }, loadMoreComments: function (comment) {
+                      $.ajax({
+                        type: 'get',
+                          url: '@Url.Content("~")/api/comments/@ViewData["id"]/' + comment.options.commentCount,
+                          success: function (commentsArray) {
+                              comment.prepareLader(commentsArray);
+                          },
+                          async: false
+                    });
+                }, getComments: function (success, error) {
+
+                    $.ajax({
+                        type: 'get',
+                        url: '@Url.Content("~")/api/comments/@ViewData["id"]',
+                        success: function (commentsArray) {
+                            success(commentsArray)
+                        },
+                        error: error,
+                        async: false
+                     });
+
+                }, postComment: function (commentJSON, success, error) {
+                     commentJSON.groupId = '@ViewData["groupId"]';
+                     commentJSON.commentGroupTypeId = '@ViewData["type"]';
+                    $.ajax({
+                        type: 'post',
+                        url: '@Url.Content("~")/api/comments/',
+                        data: commentJSON,
+                        success: function (comment) {
+                            success(comment)
+                        },
+                        error: error
+                    });
+                }, putComment: function (commentJSON, success, error) {
+                     commentJSON.groupId = '@ViewData["groupId"]';
+                     commentJSON.commentGroupTypeId = '@ViewData["type"]';
+                    $.ajax({
+                        type: 'put',
+                        url: '@Url.Content("~")/api/comments/' + commentJSON.id,
+                        data: commentJSON,
+                        success: function (comment) {
+                            success(comment)
+                        },
+                        error: error
+                    });
+                }, deleteComment: function (commentJSON, success, error) {
+                    $.ajax({
+                        type: 'delete',
+                        url: '@Url.Content("~")/api/comments/' + commentJSON.id,
+                        success: success,
+                        error: error
+                    });
+                }, upvoteComment: function (commentJSON, success, error) {
+                    var commentURL = '@Url.Content("~")/api/comments/' + commentJSON.id;
+                    var upvotesURL = commentURL + '/upvotes/';
+                    var value = (commentJSON.userHasUpvoted == true) ? 1 : 0;
+
+                    $.ajax({
+                        type: 'put',
+                        url: upvotesURL + value,
+                        success: function () {
+                            success(commentJSON)
+                        },
+                        error: error
+                    });
+                },
+                downloadAttachment: function (comment) {
+                    var win = window.open('@Url.Content("~")/Comments/DownloadAttachment/' + comment.id, '_blank');
+                    win.focus();
+                },
+                uploadAttachments: function (commentArray, success, error) {
+                    $(commentArray).each(function (index, commentJson) {
+
+                        // Create form data
+                        var formData = new FormData();
+                        $(Object.keys(commentJson)).each(function (index, key) {
+                            var value = commentJson[key];
+                            if (value) formData.append(key, value);
+                        });
+
+                        var tempCommentJson = commentJson;
+                        tempCommentJson.file = null;
+
+                        $.ajax({
+                            url: '@Url.Content("~")/api/comments/Upload/',
+                            type: 'post',
+                            data: formData,
+                            cache: false,
+                            contentType: false,
+                            processData: false,
+                            success: function (name) {
+                                tempCommentJson.fileURL = name;
+                                tempCommentJson.groupId = '@ViewData["groupId"]';
+                                tempCommentJson.commentGroupTypeId = '@ViewData["type"]';
+
+                                $.ajax({
+                                    url: '@Url.Content("~")/api/comments/',
+                                    type: 'post',
+                                    data: tempCommentJson,
+                                    success: function (comment) {
+                                        success(comment)
+                                    },
+                                    error: error
+                                });
+                            },
+                            error: function (data) {
+
+                            }
+                        });
+                    });
+                },
+            });
+
+        });
+    </script>
+}
+

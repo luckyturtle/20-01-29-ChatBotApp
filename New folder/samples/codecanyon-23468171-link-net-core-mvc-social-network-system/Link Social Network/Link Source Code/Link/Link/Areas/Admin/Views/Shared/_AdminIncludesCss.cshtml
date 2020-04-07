@@ -1,0 +1,25 @@
+@***********************************************************************************************************************
+    * Link  is a Social Network for enable distributed user to involve, collaborate and communicate .
+    * Copyright(C) 2019 Indie Sudio. All rights reserved.
+    * https://indiestd.com/
+    * info@indiestd.com
+    *********************************************************************************************************************@
+
+<environment include="Development">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link href="~/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
+
+    <link href="~/css/custom.css" rel="stylesheet" />
+</environment>
+<environment exclude="Development">
+    <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
+          asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+          asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+    <link href="~/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+
+    <link href="~/css/custom.min.css" rel="stylesheet" />
+</environment>
+
+
+<link href="~/lib/datatables/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+<link href="~/lib/datatables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />

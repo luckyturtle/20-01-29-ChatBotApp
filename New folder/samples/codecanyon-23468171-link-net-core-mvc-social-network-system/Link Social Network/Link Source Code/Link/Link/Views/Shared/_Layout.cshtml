@@ -1,0 +1,37 @@
+﻿@***********************************************************************************************************************
+    * Link  is a Social Network for enable distributed user to involve, collaborate and communicate .
+    * Copyright(C) 2019 Indie Sudio. All rights reserved.
+    * https://indiestd.com/
+    * info@indiestd.com
+    *********************************************************************************************************************@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Link</title>
+
+    @Html.Partial("_IncludesCss")
+
+</head>
+<body class="scrollbar-body">
+
+    <div class="container body-content ">
+        @await Html.PartialAsync("_NavbarHeader")
+
+        @RenderBody()
+
+    </div>
+
+
+    <footer class="footer">
+        <p>&copy; @DateTime.Now.Year - Link</p>
+    </footer>
+
+
+    @Html.Partial("_IncludesJs")
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,19 @@
+﻿
+<div class="container-fast-link draggable">
+        <a asp-area="" asp-controller="Home" asp-action="Index" draggable="false" class="btn btn-default fast-btn-link btn-circle btn-lg clickable ">
+            <span class="fa fa-home"></span>
+        </a>
+        <a href="~/profile/index/@User.Identity.Name" draggable="false" class="btn btn-default fast-btn-link btn-circle btn-lg clickable">
+            <span class="fa fa-user"></span>
+        </a>
+        <a asp-area="" asp-controller="Profile" draggable="false" asp-action="Friends" class="btn btn-default fast-btn-link btn-circle btn-lg clickable ">
+            <img src="~/images/friend-sm-black.png" style="vertical-align: top;" />
+        </a>
+
+        <a asp-area="" asp-controller="People" draggable="false" asp-action="Index" class="btn btn-default fast-btn-link btn-circle btn-lg clickable">
+            <span class="fa fa-globe"></span>
+        </a>
+        <a asp-area="" asp-controller="Groups" draggable="false" asp-action="Index" class="btn btn-default fast-btn-link btn-circle btn-lg clickable">
+            <span class="fa fa-group"></span>
+        </a>
+</div>

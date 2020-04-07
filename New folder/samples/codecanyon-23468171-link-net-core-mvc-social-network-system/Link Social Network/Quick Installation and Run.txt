@@ -1,0 +1,32 @@
+﻿Welcome to Link-Social Network Installation
+-------------------------------------------------------------------
+There are a few steps for a quick installation , including:
+
+1.Open the LinkPublish folder 
+2.Open appsettings.json file and change the following tags:
+   a.ConnectionStrings tag as below:
+      i.Server: your server name
+      ii.Database: your database name
+      iii.user id: your username
+      iv.password: your password
+   b.EmailSettings tag:
+     i.SmtpServer: smtp.gmail.com
+     ii.Port: for example Gmail SMTP port (TLS): 587 or Gmail SMTP port (SSL): 465
+     iii.EnableSsl:true when port is 465.
+     iv.UserName: your email, for example: Your Gmail address (e.g. example@gmail.com).
+     v.Password: your email password. For example Your Gmail password.
+     vi.IsBodyHtml: true
+3.Install IIS in your server machine
+4.Paste LinkPublish project In IIS wwwroot directory
+5.Install ASP.NET Core hosting bundle for Windows (with correct version);
+6.Create a new web site in the IIS and target the published files; and
+7.Run the app
+
+----------------------------------------------
+Links can help you:
+----------------------------------------------
+1.https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/iis/development-time-iis-support?view=aspnetcore-2.2
+2.https://devblogs.microsoft.com/aspnet/development-time-iis-support-for-asp-net-core-applications/
+3.https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/iis/troubleshoot?view=aspnetcore-2.2
+
+
